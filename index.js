@@ -110,4 +110,69 @@ app.post('/process-speech', async (req, res) => {
       return res.type('text/xml').send(vr.toString());
     }
 
-    // Responder y decidir si co
+    // Responder y decidir si cortar o seguir
+    vr.say({ voice: TTS_VOICE }, aiText);
+    const end = aiText.toLowerCase();
+    const shouldHangup =
+      end.includes('hasta luego') ||
+      end.includes('adiós') ||
+      end.includes('gracias por llamar') ||
+      end.includes('cerrar pedido');
+
+    if (shouldHangup) {
+      vr.hangup();
+      sessions.delete(callSid);
+    } else {
+      // Vuelve a /voice como continuación ⇒ NO repite el saludo
+      vr.redirect({ method: 'POST' }, '/voice?cont=1');
+    }
+
+    return res.type('text/xml').send(vr.toString());
+  } catch (err) {
+    const status = err?.status || err?.response?.status;
+    const data   = err?.response?.data;
+    console.error('[AI error]', { status, message: err?.message, data });
+
+    // Sin cortar la conversación: eco amable y seguimos
+    if (status === 429 && FALLBACK_NUMBER) {
+      vr.say({ voice: TTS_VOICE }, 'Nuestro asistente inteligente no está disponible. Te transfiero con un asesor humano.');
+      const dial = vr.dial();
+      dial.number(FALLBACK_NUMBER);
+    } else {
+      vr.say({ voice: TTS_VOICE }, `Tuve un problema técnico, pero alcancé a escuchar: ${heard}. ¿Quieres continuar?`);
+      vr.redirect({ method: 'POST' }, '/voice?cont=1');
+    }
+    return res.type('text/xml').send(vr.toString());
+  }
+});
+
+// ===== Status callback =====
+app.post('/status', (req, res) => {
+  const { CallSid, CallStatus } = req.body || {};
+  console.log('[STATUS]', CallSid, CallStatus);
+  res.sendStatus(200);
+});
+
+// ===== Health =====
+app.get('/', (_req, res) => res.send('Nexus 360 OK'));
+
+// ===== Test de OpenAI =====
+app.get('/ai-test', async (_req, res) => {
+  try {
+    const r = await openai.chat.completions.create({
+      model: MODEL,
+      messages: [{ role: 'user', content: 'Responde con: OK' }],
+      temperature: 0
+    });
+    res.json({ ok: true, text: r.choices?.[0]?.message?.content || '' });
+  } catch (e) {
+    res.status(500).json({
+      ok: false,
+      status: e?.status || e?.response?.status,
+      message: e?.message,
+      data: e?.response?.data || null
+    });
+  }
+});
+
+app.listen(PORT, () => console.log(`Nexus 360 running on port ${PORT}`));
