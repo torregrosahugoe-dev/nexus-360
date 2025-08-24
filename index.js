@@ -4,7 +4,7 @@ import twilio from 'twilio';
 import OpenAI from 'openai';
 
 const app = express();
-app.use(express.urlencoded({ extended: false })); // Twilio envía x-www-form-urlencoded
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 const { VoiceResponse } = twilio.twiml;
@@ -17,12 +17,14 @@ const PORT            = process.env.PORT || 3000;
 
 // ===== OpenAI =====
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const MODEL  = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 
 // ===== Memoria por llamada =====
 const sessions = new Map();
 function getSession(callSid = 'ANON') {
   if (!sessions.has(callSid)) {
     sessions.set(callSid, {
+      greeted: false, // <--- NUEVO: para no repetir el saludo
       history: [
         { role: 'system', content:
 `Eres un agente de voz en español para pedidos y consultas.
@@ -39,9 +41,14 @@ function needsHandoff(text = '') {
   return t.includes('handoff') || t.includes('humano') || t.includes('agente');
 }
 
-// ===== Saludo + Gather =====
+// ===== Saludo + Gather (sin repetir el "Hola" en vueltas siguientes) =====
 app.all('/voice', (req, res) => {
+  const callSid = req.body?.CallSid || req.query?.CallSid || 'ANON';
+  const session = getSession(callSid);
+
+  const continuing = req.query?.cont === '1' || session.greeted; // si vuelve del loop
   const vr = new VoiceResponse();
+
   const gather = vr.gather({
     input: 'speech',
     action: '/process-speech',
@@ -50,33 +57,45 @@ app.all('/voice', (req, res) => {
     speechTimeout: 'auto',
     bargeIn: true
   });
-  gather.say({ voice: TTS_VOICE }, 'Hola, bienvenido a Nexus 360. ¿En qué puedo ayudarte hoy?');
-  vr.redirect({ method: 'POST' }, '/process-speech'); // si no habló
+
+  if (!continuing) {
+    // Primer turno: saludo completo
+    gather.say({ voice: TTS_VOICE }, 'Hola, bienvenido a Nexus 360. ¿En qué puedo ayudarte hoy?');
+    session.greeted = true;
+  } else {
+    // Vueltas siguientes: sin saludo largo (puedes dejarlo en silencio o breve "Te escucho")
+    // gather.say({ voice: TTS_VOICE }, 'Te escucho.');
+  }
+
+  // Si no habló, procesa de todas formas (Twilio redirige)
+  vr.redirect({ method: 'POST' }, '/process-speech');
   res.type('text/xml').send(vr.toString());
 });
 
 // Alias por si alguna vez dejaste /ivr en Twilio
 app.post('/ivr', (req, res) => { req.url = '/voice'; app._router.handle(req, res); });
 
-// ===== Procesar voz =====
+// ===== Procesar voz + IA =====
 app.post('/process-speech', async (req, res) => {
   const { CallSid, SpeechResult } = req.body || {};
   const heard = (SpeechResult || '').trim();
+  const callSid = CallSid || 'ANON';
   const vr = new VoiceResponse();
 
   if (!heard) {
     vr.say({ voice: TTS_VOICE }, 'No te escuché bien. ¿Puedes repetir, por favor?');
-    vr.redirect({ method: 'POST' }, '/voice');
+    vr.redirect({ method: 'POST' }, '/voice?cont=1'); // <--- vuelve como continuación
     return res.type('text/xml').send(vr.toString());
   }
 
   try {
-    const session = getSession(CallSid || 'ANON');
+    const session = getSession(callSid);
     session.history.push({ role: 'user', content: heard });
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: MODEL,
       temperature: 0.3,
+      // max_tokens: 200, // opcional para acotar costo
       messages: session.history.slice(-16)
     });
 
@@ -91,72 +110,4 @@ app.post('/process-speech', async (req, res) => {
       return res.type('text/xml').send(vr.toString());
     }
 
-    // Responder y decidir si cortar o seguir
-    vr.say({ voice: TTS_VOICE }, aiText);
-    const end = aiText.toLowerCase();
-    const shouldHangup = end.includes('hasta luego') || end.includes('adiós') ||
-                         end.includes('gracias por llamar') || end.includes('cerrar pedido');
-
-    if (shouldHangup) {
-      vr.hangup();
-      sessions.delete(CallSid);
-    } else {
-      vr.redirect({ method: 'POST' }, '/voice');
-    }
-
-    return res.type('text/xml').send(vr.toString());
-  } catch (err) {
-    // ===== DIAGNÓSTICO DETALLADO + FALLBACK ELEGANTE =====
-    const status = err?.status || err?.response?.status;
-    const data   = err?.response?.data;
-    console.error('[AI error]', { status, message: err?.message, data });
-
-    // Fallback: responde con eco y sigue, para no cortar la conversación
-    vr.say({ voice: TTS_VOICE }, `Tuve un problema técnico, pero alcancé a escuchar: ${heard}. ¿Quieres continuar?`);
-    vr.redirect({ method: 'POST' }, '/voice');
-
-    // Si prefieres transferir a humano cuando falle la IA, descomenta:
-    /*
-    if (FALLBACK_NUMBER) {
-      vr.say({ voice: TTS_VOICE }, 'Tuve un problema. Te transfiero con un asesor.');
-      const dial = vr.dial();
-      dial.number(FALLBACK_NUMBER);
-    } else {
-      vr.say({ voice: TTS_VOICE }, 'Tuve un problema técnico. Gracias por llamar.');
-      vr.hangup();
-    }
-    */
-    return res.type('text/xml').send(vr.toString());
-  }
-});
-
-// ===== Status callback =====
-app.post('/status', (req, res) => {
-  const { CallSid, CallStatus } = req.body || {};
-  console.log('[STATUS]', CallSid, CallStatus);
-  res.sendStatus(200);
-});
-
-// ===== Health =====
-app.get('/', (_req, res) => res.send('Nexus 360 OK'));
-
-// ===== Test de OpenAI desde el navegador =====
-app.get('/ai-test', async (_req, res) => {
-  try {
-    const r = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [{ role: 'user', content: 'Responde con: OK' }],
-      temperature: 0
-    });
-    res.json({ ok: true, text: r.choices?.[0]?.message?.content || '' });
-  } catch (e) {
-    res.status(500).json({
-      ok: false,
-      status: e?.status || e?.response?.status,
-      message: e?.message,
-      data: e?.response?.data || null
-    });
-  }
-});
-
-app.listen(PORT, () => console.log(`Nexus 360 running on port ${PORT}`));
+    // Responder y decidir si co
