@@ -9,10 +9,10 @@ app.use(express.json());
 
 const { VoiceResponse } = twilio.twiml;
 
-// ===== Config básica =====
-const STT_LANG        = process.env.STT_LANG        || 'es-ES';        // idioma de reconocimiento
-const TTS_VOICE       = process.env.TTS_VOICE       || 'Polly.Miguel';  // voz TTS
-const FALLBACK_NUMBER = process.env.FALLBACK_NUMBER || '';             // opcional (transferencia a humano)
+// ===== Config =====
+const STT_LANG        = process.env.STT_LANG        || 'es-ES';
+const TTS_VOICE       = process.env.TTS_VOICE       || 'Polly.Miguel';
+const FALLBACK_NUMBER = process.env.FALLBACK_NUMBER || '';
 const PORT            = process.env.PORT || 3000;
 
 // ===== OpenAI =====
@@ -39,7 +39,7 @@ function needsHandoff(text = '') {
   return t.includes('handoff') || t.includes('humano') || t.includes('agente');
 }
 
-// ===== Webhook principal: saludo + Gather =====
+// ===== Saludo + Gather =====
 app.all('/voice', (req, res) => {
   const vr = new VoiceResponse();
   const gather = vr.gather({
@@ -51,16 +51,14 @@ app.all('/voice', (req, res) => {
     bargeIn: true
   });
   gather.say({ voice: TTS_VOICE }, 'Hola, bienvenido a Nexus 360. ¿En qué puedo ayudarte hoy?');
-
-  // Si no habló, pasamos a procesar igualmente:
-  vr.redirect({ method: 'POST' }, '/process-speech');
+  vr.redirect({ method: 'POST' }, '/process-speech'); // si no habló
   res.type('text/xml').send(vr.toString());
 });
 
 // Alias por si alguna vez dejaste /ivr en Twilio
 app.post('/ivr', (req, res) => { req.url = '/voice'; app._router.handle(req, res); });
 
-// ===== Procesa lo que dijo el usuario =====
+// ===== Procesar voz =====
 app.post('/process-speech', async (req, res) => {
   const { CallSid, SpeechResult } = req.body || {};
   const heard = (SpeechResult || '').trim();
@@ -108,27 +106,57 @@ app.post('/process-speech', async (req, res) => {
 
     return res.type('text/xml').send(vr.toString());
   } catch (err) {
-    console.error('AI error', err);
+    // ===== DIAGNÓSTICO DETALLADO + FALLBACK ELEGANTE =====
+    const status = err?.status || err?.response?.status;
+    const data   = err?.response?.data;
+    console.error('[AI error]', { status, message: err?.message, data });
+
+    // Fallback: responde con eco y sigue, para no cortar la conversación
+    vr.say({ voice: TTS_VOICE }, `Tuve un problema técnico, pero alcancé a escuchar: ${heard}. ¿Quieres continuar?`);
+    vr.redirect({ method: 'POST' }, '/voice');
+
+    // Si prefieres transferir a humano cuando falle la IA, descomenta:
+    /*
     if (FALLBACK_NUMBER) {
       vr.say({ voice: TTS_VOICE }, 'Tuve un problema. Te transfiero con un asesor.');
       const dial = vr.dial();
       dial.number(FALLBACK_NUMBER);
     } else {
-      vr.say({ voice: TTS_VOICE }, 'Tuvimos un problema técnico. Gracias por llamar.');
+      vr.say({ voice: TTS_VOICE }, 'Tuve un problema técnico. Gracias por llamar.');
       vr.hangup();
     }
+    */
     return res.type('text/xml').send(vr.toString());
   }
 });
 
-// Status callback (para ver estados en logs)
+// ===== Status callback =====
 app.post('/status', (req, res) => {
   const { CallSid, CallStatus } = req.body || {};
   console.log('[STATUS]', CallSid, CallStatus);
   res.sendStatus(200);
 });
 
-// Healthcheck
+// ===== Health =====
 app.get('/', (_req, res) => res.send('Nexus 360 OK'));
+
+// ===== Test de OpenAI desde el navegador =====
+app.get('/ai-test', async (_req, res) => {
+  try {
+    const r = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [{ role: 'user', content: 'Responde con: OK' }],
+      temperature: 0
+    });
+    res.json({ ok: true, text: r.choices?.[0]?.message?.content || '' });
+  } catch (e) {
+    res.status(500).json({
+      ok: false,
+      status: e?.status || e?.response?.status,
+      message: e?.message,
+      data: e?.response?.data || null
+    });
+  }
+});
 
 app.listen(PORT, () => console.log(`Nexus 360 running on port ${PORT}`));
