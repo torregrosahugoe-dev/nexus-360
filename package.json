@@ -1,16 +1,11 @@
 {
   "name": "nexus-360",
   "version": "1.0.0",
-  "description": "",
+  "description": "Proyecto Nexus 360 - IVR con Twilio y OpenAI",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
-  "engines": {
-    "node": "22.x"
-  },
-  "license": "ISC",
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
