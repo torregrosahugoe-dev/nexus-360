@@ -1,48 +1,64 @@
-require('dotenv').config();
-
+// index.js (ESM)
+import 'dotenv/config';
+import express from 'express';
 import twilio from 'twilio';
-const { VoiceResponse } = twilio.twiml;
-const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-
-const express = require('express');
-const { twiml } = require('twilio');
 
 const app = express();
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false })); // Twilio manda x-www-form-urlencoded
 
-// Webhook principal para llamadas entrantes
+const { VoiceResponse } = twilio.twiml;
+
+const STT_LANG  = process.env.STT_LANG  || 'es-ES';        // idioma de reconocimiento
+const TTS_VOICE = process.env.TTS_VOICE || 'Polly.Miguel';  // voz TTS
+const PORT      = process.env.PORT || 3000;
+
+// Saludo y primera espera de voz
 app.post('/voice', (req, res) => {
-    const response = new twiml.VoiceResponse();
+  const vr = new VoiceResponse();
 
-    // Saludo inicial y espera por la primera entrada de voz del usuario
-    const gather = response.gather({
-        input: 'speech', // Capturamos voz
-        action: '/process-speech', // Enviamos el resultado a este endpoint
-        language: 'es-ES', // Especificamos el idioma
-        speechTimeout: 'auto', // Twilio decide cuándo termina el usuario de hablar
-    });
-    gather.say('Hola, bienvenido a Nexus 360. ¿En qué puedo ayudarte hoy?');
+  const gather = vr.gather({
+    input: 'speech',
+    action: '/process-speech',   // Twilio hará POST a esta ruta
+    method: 'POST',
+    language: STT_LANG,
+    speechTimeout: 'auto',
+    bargeIn: true
+  });
 
-    res.type('text/xml');
-    res.send(response.toString());
+  gather.say({ voice: TTS_VOICE }, 'Hola, bienvenido a Nexus 360. ¿En qué puedo ayudarte hoy?');
+
+  // Si no hubo entrada, reintenta (evita silencio eterno)
+  vr.redirect({ method: 'POST' }, '/process-speech');
+
+  res.type('text/xml').send(vr.toString());
 });
 
-// Endpoint para procesar la voz convertida a texto
+// Procesa lo que dijo el usuario
 app.post('/process-speech', (req, res) => {
-    const response = new twiml.VoiceResponse();
+  const heard = req.body?.SpeechResult || '';
+  console.log('[SpeechResult]', heard);
 
-    // Obtenemos el texto del usuario
-    const userSpeech = req.body.SpeechResult;
-    console.log(`El usuario dijo: "${userSpeech}"`);
+  const vr = new VoiceResponse();
 
-    // Por ahora, solo repetimos lo que dijo para confirmar que funciona
-    response.say(`Entendido. Dijiste: ${userSpeech}. Nuestro cerebro de IA se está conectando.`);
+  if (!heard) {
+    vr.say({ voice: TTS_VOICE }, 'No te escuché bien. ¿Puedes repetir, por favor?');
+    vr.redirect({ method: 'POST' }, '/voice');
+  } else {
+    vr.say({ voice: TTS_VOICE }, `Entendido. Dijiste: ${heard}. Nuestro cerebro de inteligencia artificial se está conectando.`);
+    vr.hangup();
+  }
 
-    res.type('text/xml');
-    res.send(response.toString());
+  res.type('text/xml').send(vr.toString());
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
+// (Opcional) status callback para depurar
+app.post('/status', (req, res) => {
+  const { CallSid, CallStatus } = req.body || {};
+  console.log('[STATUS]', CallSid, CallStatus);
+  res.sendStatus(200);
 });
+
+// Healthcheck
+app.get('/', (_req, res) => res.send('Nexus 360 OK'));
+
+app.listen(PORT, () => console.log(`Nexus 360 running on port ${PORT}`));
