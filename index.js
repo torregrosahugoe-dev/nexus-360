@@ -314,4 +314,12 @@ app.get('/ai-test', async (_req, res) => {
   }
 });
 
+// Normaliza FROMs para evitar errores de tipado
+const WHATSAPP_FROM = (process.env.TWILIO_WHATSAPP_FROM || '')
+  .replace(/^whatsapp:/i, '')
+  .replace(/^:/, '')
+  .trim();
+const TWILIO_SMS_FROM = (process.env.TWILIO_SMS_FROM || '').trim();
+
+
 app.listen(PORT, () => console.log(`Nexus 360 running on port ${PORT}`));
