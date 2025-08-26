@@ -1,4 +1,3 @@
-// index.js
 import 'dotenv/config';
 import express from 'express';
 import twilio from 'twilio';
@@ -8,51 +7,52 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-/* =========================
- * Twilio: cliente y TwiML
- * ========================= */
 const { VoiceResponse } = twilio.twiml;
-const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
-/* =========================
- * Configuración (env)
- * ========================= */
-const PORT              = process.env.PORT || 3000;
-const STT_LANG          = process.env.STT_LANG || 'es-ES';
-const TTS_VOICE         = process.env.TTS_VOICE || 'Polly.Miguel';
-const FALLBACK_NUMBER   = (process.env.FALLBACK_NUMBER || '').trim(); // para transferir al vendedor
+// ===== Config =====
+const STT_LANG  = process.env.STT_LANG  || 'es-ES';
+const TTS_VOICE = process.env.TTS_VOICE || 'Polly.Miguel';
 
-// Mensajería
-const WHATSAPP_FROM = (process.env.TWILIO_WHATSAPP_FROM || '+14155238886') // sandbox por defecto
-  .replace(/^whatsapp:/i, '')
-  .replace(/^:/, '')
-  .trim();
-const SMS_FROM      = (process.env.TWILIO_SMS_FROM || '').trim();          // número Twilio con SMS
-const MENU_URL      = (process.env.MENU_URL || '').trim();
+const FALLBACK_NUMBER      = (process.env.FALLBACK_NUMBER || '').trim();           // para transferir a asesor
+const TWILIO_WHATSAPP_FROM = (process.env.TWILIO_WHATSAPP_FROM || '').trim();     // ej +14155238886 (sandbox)
+const TWILIO_SMS_FROM      = (process.env.TWILIO_SMS_FROM || '').trim();          // opcional, E.164
+const MENU_URL             = (process.env.MENU_URL || '').trim();                 // link al menú
+const TEST_TOKEN           = (process.env.TEST_TOKEN || '').trim();
+const PORT                 = process.env.PORT || 3000;
 
-// Tests (opcionales)
-const TEST_TO_E164  = (process.env.TEST_TO_E164 || '+573115601472').trim(); // por si pruebas manuales
-const TEST_TOKEN    = (process.env.TEST_TOKEN || '').trim();                // protege /wa/test
+// ===== Twilio REST client =====
+const twilioClient = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
 
-// OpenAI
+// ===== OpenAI =====
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const MODEL  = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 
-/* =========================
- * Memoria en RAM por llamada
- * ========================= */
+// ===== Memoria por llamada =====
+/**
+ * session = {
+ *   greeted: boolean,
+ *   mode: 'menu' | 'ordering',
+ *   history: OpenAI messages[]
+ * }
+ */
 const sessions = new Map();
 function getSession(callSid = 'ANON') {
   if (!sessions.has(callSid)) {
     sessions.set(callSid, {
-      greeted: false,     // ya saludó
-      menuDone: false,    // ya eligió una opción del menú inicial
+      greeted: false,
+      mode: 'menu',
       history: [
-        { role: 'system', content:
+        {
+          role: 'system',
+          content:
 `Eres un agente de voz en español para pedidos y consultas.
 - Responde breve y natural (apto para TTS).
 - Pide confirmaciones cuando haga falta.
-- Si el usuario pide humano o no puedes resolverlo, responde exactamente la palabra: HANDOFF.` }
+- Si el usuario pide humano o no puedes resolverlo, responde exactamente la palabra: HANDOFF.`
+        }
       ]
     });
   }
@@ -60,173 +60,87 @@ function getSession(callSid = 'ANON') {
 }
 
 function needsHandoff(text = '') {
-  const t = (text || '').toLowerCase();
-  return t.includes('handoff') || t.includes('humano') || t.includes('agente') || t.includes('vendedor');
+  const t = text.toLowerCase();
+  return t.includes('handoff') || t.includes('humano') || t.includes('agente') || t.includes('asesor');
 }
 
-/* =========================
- * Helpers de menú y mensajería
- * ========================= */
-function sayMenuText(node) {
-  node.say({ voice: TTS_VOICE },
-    'Hola, bienvenido a Nexus 360. ' +
-    'Elige una opción: ' +
-    'Para tomar tu pedido, di "pedido" o marca 1. ' +
-    'Para que te envíe el menú por WhatsApp, di "WhatsApp" o marca 2. ' +
-    'Para hablar con un vendedor, di "vendedor" o marca 3.'
-  );
+// ===== Utilidades =====
+const onlyDigits = s => (s || '').replace(/\D+/g, '');
+const toE164 = s => {
+  if (!s) return '';
+  const trimmed = s.trim();
+  if (/^\+/.test(trimmed)) return trimmed;
+  const digits = onlyDigits(trimmed);
+  return digits ? `+${digits}` : '';
+};
+
+function whatsAddr(numE164) {
+  const n = numE164.replace(/^whatsapp:/i, '').trim();
+  return `whatsapp:${n}`;
 }
 
+// Enviar menú por WhatsApp (sandbox) con fallback SMS
 async function sendMenuToUser(toE164) {
-  const body = MENU_URL
+  const to = toE164.replace(/^whatsapp:/i, '').trim();
+  const fromWa = toE164 ? whatsAddr(TWILIO_WHATSAPP_FROM) : '';
+  const toWa   = whatsAddr(to);
+  const text   = MENU_URL
     ? `Aquí tienes nuestro menú: ${MENU_URL}`
-    : `Menú de ejemplo:
-- Sándwich de pollo
-- Sándwich de pavo
-- Limonada
-(Agrega MENU_URL en Config Vars para enviar un link)`;
+    : `Hola, te comparto nuestro menú. Si necesitas ayuda, responde a este chat o vuelve a llamar.`;
 
-  // Intento WhatsApp primero si hay WA FROM
-  if (WHATSAPP_FROM) {
-    try {
-      const msg = await client.messages.create({
-        from: `whatsapp:${WHATSAPP_FROM}`,
-        to:   `whatsapp:${toE164}`,
-        body
-      });
-      return { via: 'whatsapp', sid: msg.sid };
-    } catch (err) {
-      // Continúa a SMS
-      console.error('[WhatsApp send error]', err?.message || err);
+  // Intento por WhatsApp
+  try {
+    if (!TWILIO_WHATSAPP_FROM) throw new Error('TWILIO_WHATSAPP_FROM vacío');
+    const msg = await twilioClient.messages.create({
+      from: fromWa,  // 'whatsapp:+14155238886'
+      to: toWa,      // 'whatsapp:+57311...'
+      body: text
+    });
+    return { ok: true, via: 'whatsapp', sid: msg.sid };
+  } catch (e) {
+    // Fallback a SMS si está configurado
+    if (TWILIO_SMS_FROM) {
+      try {
+        const sms = await twilioClient.messages.create({
+          from: TWILIO_SMS_FROM,
+          to,
+          body: text
+        });
+        return { ok: true, via: 'sms', sid: sms.sid };
+      } catch (smsErr) {
+        return { ok: false, via: 'none', error: smsErr?.message || String(smsErr) };
+      }
     }
+    return { ok: false, via: 'none', error: e?.message || String(e) };
   }
-  // SMS como fallback
-  if (SMS_FROM) {
-    try {
-      const sms = await client.messages.create({
-        from: SMS_FROM,
-        to:   toE164,
-        body
-      });
-      return { via: 'sms', sid: sms.sid };
-    } catch (err) {
-      console.error('[SMS send error]', err?.message || err);
-    }
-  }
-  return null;
 }
 
-/* =========================
- * Rutas de voz (Twilio Voice)
- * ========================= */
-
-// Entrada principal: menú inicial o conversación
+// ===== Menú / Inicio de llamada =====
 app.all('/voice', (req, res) => {
   const callSid = req.body?.CallSid || req.query?.CallSid || 'ANON';
   const session = getSession(callSid);
-
-  const continuing = req.query?.cont === '1' || session.greeted;
+  const continuing = req.query?.cont === '1';
   const vr = new VoiceResponse();
 
-  // Si aún no eligió en el menú, mostrar menú (voz + DTMF)
-  if (!session.menuDone && !continuing) {
+  if (session.mode === 'ordering') {
+    // Ya en modo tomar pedido -> solo escuchar al cliente
     const gather = vr.gather({
-      input: 'dtmf speech',
-      numDigits: 1,
-      action: '/menu-select',
+      input: 'speech',
+      action: '/process-speech',
       method: 'POST',
       language: STT_LANG,
       speechTimeout: 'auto',
       bargeIn: true
     });
-    sayMenuText(gather);
-
-    // Si no dijo nada, redirige igual para repreguntar
-    vr.redirect({ method: 'POST' }, '/menu-select');
-    session.greeted = true;
-    return res.type('text/xml').send(vr.toString());
-  }
-
-  // Conversación normal con la IA
-  const gather = vr.gather({
-    input: 'speech',
-    action: '/process-speech',
-    method: 'POST',
-    language: STT_LANG,
-    speechTimeout: 'auto',
-    bargeIn: true
-  });
-
-  if (!continuing) {
-    gather.say({ voice: TTS_VOICE }, 'Te escucho, ¿qué deseas ordenar o consultar?');
-    session.greeted = true;
-  }
-
-  vr.redirect({ method: 'POST' }, '/process-speech');
-  return res.type('text/xml').send(vr.toString());
-});
-
-// Alias por si en Twilio dejaste /ivr
-app.post('/ivr', (req, res) => { req.url = '/voice'; app._router.handle(req, res); });
-
-// Procesa selección de menú
-app.post('/menu-select', async (req, res) => {
-  const callSid   = req.body?.CallSid || 'ANON';
-  const digits    = (req.body?.Digits || '').trim();
-  const speechRaw = (req.body?.SpeechResult || '').toLowerCase().trim();
-  // From puede venir como whatsapp:+E164; lo normalizamos
-  const fromE164  = (req.body?.From || TEST_TO_E164 || '')
-    .replace(/^whatsapp:/i, '')
-    .trim();
-
-  const session = getSession(callSid);
-  const vr = new VoiceResponse();
-
-  // Determina opción del menú
-  let opt = null;
-  if (digits === '1' || /pedido|orden|pedir/.test(speechRaw)) opt = 'order';
-  else if (digits === '2' || /whats?app|men[úu]/.test(speechRaw)) opt = 'menu';
-  else if (digits === '3' || /vendedor|humano|asesor/.test(speechRaw)) opt = 'agent';
-
-  if (opt === 'order') {
-    session.menuDone = true;
-    vr.say({ voice: TTS_VOICE }, 'Perfecto. Tomo tu pedido. ¿Qué deseas ordenar?');
-    vr.redirect({ method: 'POST' }, '/voice?cont=1');
-    return res.type('text/xml').send(vr.toString());
-  }
-
-  if (opt === 'menu') {
-    try {
-      const result = await sendMenuToUser(fromE164);
-      if (result?.via === 'whatsapp') {
-        vr.say({ voice: TTS_VOICE }, 'Te envié el menú por WhatsApp. ¿Quieres que tome tu pedido ahora?');
-      } else if (result?.via === 'sms') {
-        vr.say({ voice: TTS_VOICE }, 'No pude usar WhatsApp. Te envié el menú por SMS. ¿Quieres que tome tu pedido ahora?');
-      } else {
-        vr.say({ voice: TTS_VOICE }, 'No pude enviar el menú automáticamente. Si quieres, puedo tomar tu pedido por aquí. ¿Deseas continuar?');
-      }
-    } catch (err) {
-      console.error('[sendMenu error]', err?.message || err);
-      vr.say({ voice: TTS_VOICE }, 'Tuve un problema al enviar el menú. ¿Quieres que tome tu pedido por aquí?');
+    if (!continuing && !session.greeted) {
+      gather.say({ voice: TTS_VOICE }, 'Perfecto, tomaré tu pedido. ¿Qué deseas ordenar?');
+      session.greeted = true;
     }
-    session.menuDone = true;
-    vr.redirect({ method: 'POST' }, '/voice?cont=1');
+    vr.redirect({ method: 'POST' }, '/process-speech');
     return res.type('text/xml').send(vr.toString());
   }
 
-  if (opt === 'agent') {
-    if (FALLBACK_NUMBER) {
-      vr.say({ voice: TTS_VOICE }, 'Te transfiero con un vendedor. Un momento, por favor.');
-      vr.dial().number(FALLBACK_NUMBER);
-    } else {
-      vr.say({ voice: TTS_VOICE }, 'No puedo transferirte ahora. ¿Quieres que tome tu pedido por aquí?');
-      session.menuDone = true;
-      vr.redirect({ method: 'POST' }, '/voice?cont=1');
-    }
-    return res.type('text/xml').send(vr.toString());
-  }
-
-  // No entendido → repetir menú
+  // Modo menú
   const gather = vr.gather({
     input: 'dtmf speech',
     numDigits: 1,
@@ -236,20 +150,178 @@ app.post('/menu-select', async (req, res) => {
     speechTimeout: 'auto',
     bargeIn: true
   });
-  gather.say({ voice: TTS_VOICE },
-    'No te entendí. ' +
-    'Para tomar tu pedido di "pedido" o marca 1. ' +
-    'Para enviar el menú por WhatsApp di "WhatsApp" o marca 2. ' +
-    'Para hablar con un vendedor di "vendedor" o marca 3.'
-  );
+
+  if (!continuing && !session.greeted) {
+    gather.say({ voice: TTS_VOICE },
+      'Hola, bienvenido a Nexus 360. ' +
+      'Marca 1 o di tomar pedido. ' +
+      'Marca 2 o di enviar menú. ' +
+      'Marca 3 o di hablar con un asesor.'
+    );
+    session.greeted = true;
+  } else {
+    gather.say({ voice: TTS_VOICE },
+      'Opciones: 1 tomar pedido, 2 enviar menú por WhatsApp, 3 hablar con un asesor.'
+    );
+  }
+
+  // Si no responde, reintenta menú
+  vr.redirect({ method: 'POST' }, '/menu-select');
+  res.type('text/xml').send(vr.toString());
+});
+
+// ===== Selección del menú =====
+app.post('/menu-select', async (req, res) => {
+  const callSid   = req.body?.CallSid || 'ANON';
+  const fromRaw   = (req.body?.From || '').replace(/^whatsapp:/i, '').trim(); // podría venir 'whatsapp:+57...'
+  const fromE164  = toE164(fromRaw);
+  const digits    = (req.body?.Digits || '').trim();
+  const speechRaw = (req.body?.SpeechResult || '').toLowerCase().trim();
+
+  const vr = new VoiceResponse();
+  const session = getSession(callSid);
+
+  const isOrder =
+    digits === '1' ||
+    /(tomar pedido|hacer pedido|pedido|orden|ordenar|comprar)/i.test(speechRaw);
+
+  const isMenu =
+    digits === '2' ||
+    /(enviar menú|mandar menú|menú|menu|whatsapp)/i.test(speechRaw);
+
+  const isAgent =
+    digits === '3' ||
+    /(asesor|agente|humano|vendedor|hablar con un asesor|transferir)/i.test(speechRaw);
+
+  // 1) Tomar pedido
+  if (isOrder) {
+    session.mode = 'ordering';
+    vr.say({ voice: TTS_VOICE }, 'Perfecto. Seguimos en la llamada. ¿Qué deseas ordenar?');
+    vr.redirect({ method: 'POST' }, '/voice?cont=1');
+    return res.type('text/xml').send(vr.toString());
+  }
+
+  // 2) Enviar menú y luego preguntar si sigue o asesor
+  if (isMenu) {
+    try {
+      const result = await sendMenuToUser(fromE164 || '+573115601472'); // fallback para pruebas
+      if (!result?.ok) {
+        vr.say({ voice: TTS_VOICE }, 'No pude enviar el menú automáticamente.');
+      }
+    } catch (err) {
+      console.error('[sendMenu error]', err?.message || err);
+      vr.say({ voice: TTS_VOICE }, 'Tuve un problema al enviar el menú.');
+    }
+
+    const ask = vr.gather({
+      input: 'dtmf speech',
+      numDigits: 1,
+      action: '/post-menu-choice',
+      method: 'POST',
+      language: STT_LANG,
+      speechTimeout: 'auto',
+      bargeIn: true
+    });
+
+    ask.say(
+      { voice: TTS_VOICE },
+      'Te envié el menú por WhatsApp. ' +
+      '¿Deseas seguir en la llamada o prefieres hablar con un asesor? ' +
+      'Marca 1 o di: seguir en la llamada. ' +
+      'Marca 2 o di: hablar con un asesor.'
+    );
+
+    vr.redirect({ method: 'POST' }, '/post-menu-choice');
+    return res.type('text/xml').send(vr.toString());
+  }
+
+  // 3) Asesor
+  if (isAgent) {
+    if (FALLBACK_NUMBER) {
+      vr.say({ voice: TTS_VOICE }, 'Te transfiero con un asesor. Un momento, por favor.');
+      vr.dial().number(FALLBACK_NUMBER);
+    } else {
+      vr.say({ voice: TTS_VOICE }, 'Ahora no puedo transferirte. ¿Quieres que tome tu pedido aquí?');
+      session.mode = 'ordering';
+      vr.redirect({ method: 'POST' }, '/voice?cont=1');
+    }
+    return res.type('text/xml').send(vr.toString());
+  }
+
+  // No entendido -> repetir menú
+  const rep = vr.gather({
+    input: 'dtmf speech',
+    numDigits: 1,
+    action: '/menu-select',
+    method: 'POST',
+    language: STT_LANG,
+    speechTimeout: 'auto',
+    bargeIn: true
+  });
+  rep.say({ voice: TTS_VOICE }, 'No te entendí. Marca 1 para tomar pedido, 2 para enviar menú, 3 para hablar con un asesor.');
   vr.redirect({ method: 'POST' }, '/menu-select');
   return res.type('text/xml').send(vr.toString());
 });
 
-// Conversación con IA
+// ===== Después de enviar menú: seguir en llamada o asesor =====
+app.post('/post-menu-choice', (req, res) => {
+  const callSid   = req.body?.CallSid || 'ANON';
+  const digits    = (req.body?.Digits || '').trim();
+  const speechRaw = (req.body?.SpeechResult || '').toLowerCase().trim();
+  const session   = getSession(callSid);
+  const vr = new VoiceResponse();
+
+  const wantContinue =
+    digits === '1' ||
+    /(seguir en la llamada|seguir|continuar|continuo|quedarme|aquí|aca|si|sí)/i.test(speechRaw);
+
+  const wantAgent =
+    digits === '2' ||
+    /(hablar con un asesor|asesor|vendedor|agente|humano|transferir|transferencia)/i.test(speechRaw);
+
+  if (wantContinue) {
+    session.mode = 'ordering';
+    vr.say({ voice: TTS_VOICE }, 'Perfecto, seguimos en la llamada. ¿Cómo te puedo ayudar?');
+    vr.redirect({ method: 'POST' }, '/voice?cont=1');
+    return res.type('text/xml').send(vr.toString());
+  }
+
+  if (wantAgent) {
+    if (FALLBACK_NUMBER) {
+      vr.say({ voice: TTS_VOICE }, 'Te transfiero con un asesor. Un momento, por favor.');
+      vr.dial().number(FALLBACK_NUMBER);
+    } else {
+      vr.say({ voice: TTS_VOICE }, 'Ahora no puedo transferirte. Seguimos en la llamada. ¿Cómo te puedo ayudar?');
+      session.mode = 'ordering';
+      vr.redirect({ method: 'POST' }, '/voice?cont=1');
+    }
+    return res.type('text/xml').send(vr.toString());
+  }
+
+  // Repreguntar
+  const rep = vr.gather({
+    input: 'dtmf speech',
+    numDigits: 1,
+    action: '/post-menu-choice',
+    method: 'POST',
+    language: STT_LANG,
+    speechTimeout: 'auto',
+    bargeIn: true
+  });
+  rep.say(
+    { voice: TTS_VOICE },
+    'No te entendí. ' +
+    'Marca 1 o di: seguir en la llamada. ' +
+    'Marca 2 o di: hablar con un asesor.'
+  );
+  vr.redirect({ method: 'POST' }, '/post-menu-choice');
+  return res.type('text/xml').send(vr.toString());
+});
+
+// ===== ChatGPT: procesar voz cuando estamos en "ordering" =====
 app.post('/process-speech', async (req, res) => {
   const { CallSid, SpeechResult } = req.body || {};
-  const heard = (SpeechResult || '').trim();
+  const heard   = (SpeechResult || '').trim();
   const callSid = CallSid || 'ANON';
   const vr = new VoiceResponse();
 
@@ -272,15 +344,15 @@ app.post('/process-speech', async (req, res) => {
     const aiText = (completion.choices?.[0]?.message?.content || '').trim() || '¿Podrías repetir, por favor?';
     session.history.push({ role: 'assistant', content: aiText });
 
-    // Handoff a humano si aplica
+    // handoff a humano si aplica
     if (needsHandoff(aiText) && FALLBACK_NUMBER) {
       vr.say({ voice: TTS_VOICE }, 'Te transfiero con un asesor humano. Un momento, por favor.');
       vr.dial().number(FALLBACK_NUMBER);
       return res.type('text/xml').send(vr.toString());
     }
 
-    // Responder y decidir si cortar o seguir
     vr.say({ voice: TTS_VOICE }, aiText);
+
     const end = aiText.toLowerCase();
     const shouldHangup =
       end.includes('hasta luego') ||
@@ -294,7 +366,6 @@ app.post('/process-speech', async (req, res) => {
     } else {
       vr.redirect({ method: 'POST' }, '/voice?cont=1');
     }
-
     return res.type('text/xml').send(vr.toString());
   } catch (err) {
     const status = err?.status || err?.response?.status;
@@ -302,7 +373,7 @@ app.post('/process-speech', async (req, res) => {
     console.error('[AI error]', { status, message: err?.message, data });
 
     if (status === 429 && FALLBACK_NUMBER) {
-      vr.say({ voice: TTS_VOICE }, 'Nuestro asistente inteligente no está disponible. Te transfiero con un asesor humano.');
+      vr.say({ voice: TTS_VOICE }, 'Nuestro asistente no está disponible. Te transfiero con un asesor.');
       vr.dial().number(FALLBACK_NUMBER);
     } else {
       vr.say({ voice: TTS_VOICE }, `Tuve un problema técnico, pero alcancé a escuchar: ${heard}. ¿Quieres continuar?`);
@@ -312,21 +383,31 @@ app.post('/process-speech', async (req, res) => {
   }
 });
 
-/* =========================
- * Status callback (opcional)
- * ========================= */
+// ===== Status callback =====
 app.post('/status', (req, res) => {
   const { CallSid, CallStatus } = req.body || {};
   console.log('[STATUS]', CallSid, CallStatus);
   res.sendStatus(200);
 });
 
-/* =========================
- * Health / ai-test / wa-test
- * ========================= */
+// ===== Health =====
 app.get('/', (_req, res) => res.send('Nexus 360 OK'));
 
-// Prueba de OpenAI
+// ===== Test de WhatsApp / SMS =====
+app.get('/wa/test', async (req, res) => {
+  try {
+    if (TEST_TOKEN && req.query.token !== TEST_TOKEN) {
+      return res.status(401).json({ ok: false, error: 'unauthorized' });
+    }
+    const to = toE164(req.query.to || '+573115601472');
+    const result = await sendMenuToUser(to);
+    res.json({ ok: !!result.ok, via: result.via, sid: result.sid || null, to });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+// ===== Test de OpenAI =====
 app.get('/ai-test', async (_req, res) => {
   try {
     const r = await openai.chat.completions.create({
@@ -345,40 +426,4 @@ app.get('/ai-test', async (_req, res) => {
   }
 });
 
-// Test seguro de WhatsApp (y SMS fallback)
-// GET /wa/test?to=+573115601472&token=XXXX
-app.get('/wa/test', async (req, res) => {
-  try {
-    if (TEST_TOKEN && req.query.token !== TEST_TOKEN) {
-      return res.status(401).send('Unauthorized');
-    }
-    const raw   = (req.query.to || TEST_TO_E164).trim();
-    const toE64 = raw.replace(/^whatsapp:/i, '').trim();
-
-    try {
-      const msg = await client.messages.create({
-        from: `whatsapp:${WHATSAPP_FROM}`,
-        to:   `whatsapp:${toE64}`,
-        body: '🍔 ¡Hola! Este es un mensaje de prueba del IVR por WhatsApp. Gracias por comunicarte con Nexus 360.'
-      });
-      return res.json({ ok: true, via: 'whatsapp', sid: msg.sid, to: toE64 });
-    } catch (waErr) {
-      if (SMS_FROM) {
-        const sms = await client.messages.create({
-          from: SMS_FROM,
-          to:   toE64,
-          body: '🍔 Prueba SMS de Nexus 360: si no recibiste por WhatsApp, revisa el opt-in del sandbox.'
-        });
-        return res.json({ ok: true, via: 'sms', sid: sms.sid, to: toE64, wa_error: waErr?.message || String(waErr) });
-      }
-      return res.status(500).json({ ok: false, via: 'whatsapp', error: waErr?.message || String(waErr) });
-    }
-  } catch (e) {
-    return res.status(500).json({ ok: false, error: e?.message || String(e) });
-  }
-});
-
-/* =========================
- * Arranque
- * ========================= */
 app.listen(PORT, () => console.log(`Nexus 360 running on port ${PORT}`));
