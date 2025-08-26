@@ -1,0 +1,21 @@
+{
+  "currency": "COP",
+  "categories": [
+    {
+      "id": "sandwiches",
+      "name": "Sándwiches",
+      "items": [
+        { "id": "S01", "name": "Sándwich de pollo", "price": 12000 },
+        { "id": "S02", "name": "Sándwich de jamón y queso", "price": 11000 }
+      ]
+    },
+    {
+      "id": "bebidas",
+      "name": "Bebidas",
+      "items": [
+        { "id": "B01", "name": "Limonada", "price": 6000 },
+        { "id": "B02", "name": "Coca-Cola 400 ml", "price": 5000 }
+      ]
+    }
+  ]
+}
