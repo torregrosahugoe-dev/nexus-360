@@ -2,19 +2,1807 @@
   "currency": "COP",
   "categories": [
     {
-      "id": "sandwiches",
-      "name": "Sándwiches",
+      "id": "aguja",
+      "name": "AGUJA",
       "items": [
-        { "id": "S01", "name": "Sándwich de pollo", "price": 12000 },
-        { "id": "S02", "name": "Sándwich de jamón y queso", "price": 11000 }
+        {
+          "id": "(Ag-aguja-collarin-orange-aguja",
+          "name": "(Aguja) Collarin Orange Aguja",
+          "price": 1500
+        },
+        {
+          "id": "(Ag-aguja-cubo-delgado-aguja",
+          "name": "(Aguja) Cubo Delgado Aguja",
+          "price": 1500
+        },
+        {
+          "id": "(Ag-aguja-cubo-gruesa-aguja",
+          "name": "(Aguja) Cubo Gruesa Aguja",
+          "price": 1500
+        },
+        {
+          "id": "(Ag-aguja-fileteadora-aguja",
+          "name": "(Aguja) Fileteadora Aguja",
+          "price": 1500
+        }
       ]
     },
     {
-      "id": "bebidas",
-      "name": "Bebidas",
+      "id": "bata-dacron-laboratorio",
+      "name": "BATA DACRON LABORATORIO",
       "items": [
-        { "id": "B01", "name": "Limonada", "price": 6000 },
-        { "id": "B02", "name": "Coca-Cola 400 ml", "price": 5000 }
+        {
+          "id": "(BD-bdal-talla-s-06-bata-dacron-laboratorio",
+          "name": "(BDAL) Talla    S (06) BATA DACRON LABORATORIO",
+          "price": 35000
+        },
+        {
+          "id": "(BD-bdal-talla-s-08-bata-dacron-laboratorio",
+          "name": "(BDAL) Talla    S (08) BATA DACRON LABORATORIO",
+          "price": 35000
+        },
+        {
+          "id": "(BD-bdal-talla-m-10-bata-dacron-laboratorio",
+          "name": "(BDAL) Talla   M (10) BATA DACRON LABORATORIO",
+          "price": 35000
+        },
+        {
+          "id": "(BD-bdal-talla-m-12-bata-dacron-laboratorio",
+          "name": "(BDAL) Talla   M (12) BATA DACRON LABORATORIO",
+          "price": 35000
+        },
+        {
+          "id": "(BD-bdal-talla-m-38-bata-dacron-laboratorio",
+          "name": "(BDAL) Talla   M (38) BATA DACRON LABORATORIO",
+          "price": 35000
+        },
+        {
+          "id": "(BD-bdal-talla-m-40-bata-dacron-laboratorio",
+          "name": "(BDAL) Talla   M (40) BATA DACRON LABORATORIO",
+          "price": 35000
+        },
+        {
+          "id": "(BD-bdal-talla-l-42-bata-dacron-laboratorio",
+          "name": "(BDAL) Talla L (42) BATA DACRON LABORATORIO",
+          "price": 35000
+        },
+        {
+          "id": "(BD-bdal-talla-l-44-bata-dacron-laboratorio",
+          "name": "(BDAL) Talla L (44) BATA DACRON LABORATORIO",
+          "price": 35000
+        },
+        {
+          "id": "(BD-bdal-talla-xl-46-bata-dacron-laboratorio",
+          "name": "(BDAL) Talla XL (46) BATA DACRON LABORATORIO",
+          "price": 35000
+        },
+        {
+          "id": "(BD-bdal-talla-xs-36-bata-dacron-laboratorio",
+          "name": "(BDAL) Talla XS (36) BATA DACRON LABORATORIO",
+          "price": 35000
+        }
+      ]
+    },
+    {
+      "id": "bata-dril-laboratorio",
+      "name": "BATA DRIL LABORATORIO",
+      "items": [
+        {
+          "id": "(BD-bdrl-talla-s-06-bata-dril-laboratorio",
+          "name": "(BDRL) Talla    S (06) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-s-08-bata-dril-laboratorio",
+          "name": "(BDRL) Talla    S (08) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-m-10-bata-dril-laboratorio",
+          "name": "(BDRL) Talla   M (10) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-m-12-bata-dril-laboratorio",
+          "name": "(BDRL) Talla   M (12) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-m-38-bata-dril-laboratorio",
+          "name": "(BDRL) Talla   M (38) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-m-40-bata-dril-laboratorio",
+          "name": "(BDRL) Talla   M (40) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-l-14-bata-dril-laboratorio",
+          "name": "(BDRL) Talla L (14) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-l-42-bata-dril-laboratorio",
+          "name": "(BDRL) Talla L (42) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-l-44-bata-dril-laboratorio",
+          "name": "(BDRL) Talla L (44) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-xl-46-bata-dril-laboratorio",
+          "name": "(BDRL) Talla XL (46) BATA DRIL LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BD-bdrl-talla-xs-32-bata-dril-laboratorio",
+          "name": "(BDRL) Talla XS (32) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-xs-34-bata-dril-laboratorio",
+          "name": "(BDRL) Talla XS (34) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-xs-36-bata-dril-laboratorio",
+          "name": "(BDRL) Talla XS (36) BATA DRIL LABORATORIO",
+          "price": 71000
+        },
+        {
+          "id": "(BD-bdrl-talla-xxl-50-bata-dril-laboratorio",
+          "name": "(BDRL) Talla XXL (50) BATA DRIL LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BD-bdrl-talla-xxxl-50-bata-dril-laboratorio",
+          "name": "(BDRL) Talla XXXL (50) BATA DRIL LABORATORIO",
+          "price": 76000
+        }
+      ]
+    },
+    {
+      "id": "bata-gabar-t-o-m-laboratorio",
+      "name": "BATA GABAR T O M LABORATORIO",
+      "items": [
+        {
+          "id": "(BG-bgtl-talla-s-06-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla    S (06) BATA GABAR T O M LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BG-bgtl-talla-s-08-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla    S (08) BATA GABAR T O M LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BG-bgtl-talla-m-10-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla   M (10) BATA GABAR T O M LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BG-bgtl-talla-m-12-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla   M (12) BATA GABAR T O M LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BG-bgtl-talla-m-38-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla   M (38)BATA GABAR T O M LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BG-bgtl-talla-m-40-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla   M (40) BATA GABAR T O M LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BG-bgtl-talla-l-14-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla L (14) BATA GABAR T O M LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BG-bgtl-talla-l-42-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla L (42) BATA GABAR T O M LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BG-bgtl-talla-l-44-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla L (44) BATA GABAR T O M LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BG-bgtl-talla-xl-46-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla XL (46) BATA GABAR T O M LABORATORIO",
+          "price": 85000
+        },
+        {
+          "id": "(BG-bgtl-talla-xs-36-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla XS (36) BATA GABAR T O M LABORATORIO",
+          "price": 76000
+        },
+        {
+          "id": "(BG-bgtl-talla-xxl-50-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla XXL (50) BATA GABAR T O M LABORATORIO",
+          "price": 85000
+        },
+        {
+          "id": "(BG-bgtl-talla-xxxl-50-bata-gabar-t-o-m-laboratorio",
+          "name": "(BGTL) Talla XXXL (50) BATA GABAR T O M LABORATORIO",
+          "price": 85000
+        }
+      ]
+    },
+    {
+      "id": "botas",
+      "name": "BOTAS",
+      "items": [
+        {
+          "id": "(Z)-z-botas-superior-34-negro-con-gris",
+          "name": "(Z) Botas Superior 34 Negro con Gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-35-negro-con-gris",
+          "name": "(Z) Botas Superior 35 Negro con Gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-36-negro-con-gris",
+          "name": "(Z) Botas Superior 36 Negro con gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-37-negro-con-gris",
+          "name": "(Z) Botas Superior 37 Negro con gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-38-negro-con-gris",
+          "name": "(Z) Botas Superior 38 Negro con gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-39-negro-con-gris",
+          "name": "(Z) Botas Superior 39 Negro con gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-40-negro-con-gris",
+          "name": "(Z) Botas Superior 40 Negro con gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-41-negro-con-gris",
+          "name": "(Z) Botas Superior 41 Negro con gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-42-negro-con-gris",
+          "name": "(Z) Botas Superior 42 Negro con gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-43-negro-con-gris",
+          "name": "(Z) Botas Superior 43 Negro con gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-44-negro-con-gris",
+          "name": "(Z) Botas Superior 44 Negro con Gris",
+          "price": 80000
+        },
+        {
+          "id": "(Z)-z-botas-superior-45-negro-con-cris",
+          "name": "(Z) Botas Superior 45 Negro con cris",
+          "price": 82000
+        },
+        {
+          "id": "(Z)-z-botas-superior-46-negro-con-gris",
+          "name": "(Z) Botas Superior 46 Negro con Gris",
+          "price": 82000
+        }
+      ]
+    },
+    {
+      "id": "buso-de-colores-algodon-perchado",
+      "name": "BUSO DE COLORES ALGODÓN PERCHADO",
+      "items": [
+        {
+          "id": "(BC-bcap-talla-l-buso-de-colores-algodon-perchado",
+          "name": "(BCAP) Talla L Buso de Colores Algodón Perchado",
+          "price": 85000
+        },
+        {
+          "id": "(BC-bcap-talla-m-buso-de-colores-algodon-perchado",
+          "name": "(BCAP) Talla M Buso de Colores Algodón Perchado",
+          "price": 85000
+        },
+        {
+          "id": "(BC-bcap-talla-s-buso-de-colores-algodon-perchado",
+          "name": "(BCAP) Talla S Buso de Colores Algodón Perchado",
+          "price": 75000
+        },
+        {
+          "id": "(BC-bcap-talla-xl-buso-de-colores-algodon-perchado",
+          "name": "(BCAP) Talla XL Buso de Colores Algodón Perchado",
+          "price": 85000
+        },
+        {
+          "id": "(BC-bcap-talla-xs-buso-de-colores-algodon-perchado",
+          "name": "(BCAP) Talla XS Buso de Colores Algodón Perchado",
+          "price": 75000
+        },
+        {
+          "id": "(BC-bcap-talla-xxl-buso-de-colores-algodon-perchado",
+          "name": "(BCAP) Talla XXL Buso de Colores Algodón Perchado",
+          "price": 85000
+        }
+      ]
+    },
+    {
+      "id": "camiseta-polo-s-deportiva",
+      "name": "CAMISETA POLO S DEPORTIVA",
+      "items": [
+        {
+          "id": "(CP-cp-camiseta-polo-l-deportiva",
+          "name": "(CP) Camiseta Polo L Deportiva",
+          "price": 36000
+        },
+        {
+          "id": "(CP-cp-camiseta-polo-m-deportiva",
+          "name": "(CP) Camiseta Polo M Deportiva",
+          "price": 36000
+        },
+        {
+          "id": "(CP-cp-camiseta-polo-s-deportiva",
+          "name": "(CP) Camiseta Polo S Deportiva",
+          "price": 36000
+        }
+      ]
+    },
+    {
+      "id": "chaqueta-algodon-perchado",
+      "name": "CHAQUETA ALGODON PERCHADO",
+      "items": [
+        {
+          "id": "(CH-chap-talla-s-chaqueta-algodon-per",
+          "name": "(CHAP) Talla    S Chaqueta algodon per.",
+          "price": 94000
+        },
+        {
+          "id": "(CH-chap-talla-m-chaqueta-algodon-per",
+          "name": "(CHAP) Talla   M Chaqueta algodon per.",
+          "price": 94000
+        },
+        {
+          "id": "(CH-chap-talla-l-chaqueta-algodon-per",
+          "name": "(CHAP) Talla L Chaqueta algodon per.",
+          "price": 94000
+        },
+        {
+          "id": "(CH-chap-talla-xl-chaqueta-algodon-per",
+          "name": "(CHAP) Talla XL Chaqueta algodon per.",
+          "price": 94000
+        },
+        {
+          "id": "(CH-chap-talla-xs-chaqueta-algodon-per",
+          "name": "(CHAP) Talla XS Chaqueta algodon per.",
+          "price": 94000
+        },
+        {
+          "id": "(CH-chap-talla-xxl-chaqueta-algodon-per",
+          "name": "(CHAP) Talla XXL Chaqueta algodon per.",
+          "price": 96000
+        },
+        {
+          "id": "(CH-chap-talla-xxxl-chaqueta-algodon-per",
+          "name": "(CHAP) Talla XXXL Chaqueta algodon per.",
+          "price": 96000
+        },
+        {
+          "id": "(CH-chap-talla-xxxl-chaqueta-algodon-per",
+          "name": "(CHAP) Talla XXXL Chaqueta algodon per.",
+          "price": 96000
+        },
+        {
+          "id": "(CH-chap-talla-xxxxl-chaqueta-algodon-per",
+          "name": "(CHAP) Talla XXXXL Chaqueta algodon per.",
+          "price": 96000
+        },
+        {
+          "id": "(CH-chap-talla-xxxxl-chaqueta-algodon-per",
+          "name": "(CHAP) Talla XXXXL Chaqueta algodon per.",
+          "price": 96000
+        }
+      ]
+    },
+    {
+      "id": "chaqueta-ambiental-forrada-o-sin-forro",
+      "name": "CHAQUETA AMBIENTAL FORRADA O SIN FORRO",
+      "items": [
+        {
+          "id": "(CH-cha-talla-s-chaqueta-ambiental-forrada",
+          "name": "(CHA) Talla    S Chaqueta Ambiental Forrada",
+          "price": 140000
+        },
+        {
+          "id": "(CH-cha-talla-s-chaqueta-ambiental-sin-forro",
+          "name": "(CHA) Talla    S Chaqueta Ambiental Sin Forro",
+          "price": 120000
+        },
+        {
+          "id": "(CH-cha-talla-m-chaqueta-ambiental-forrada",
+          "name": "(CHA) Talla   M Chaqueta Ambiental Forrada",
+          "price": 140000
+        },
+        {
+          "id": "(CH-cha-talla-m-chaqueta-ambiental-sin-forro",
+          "name": "(CHA) Talla   M Chaqueta Ambiental Sin Forro",
+          "price": 120000
+        },
+        {
+          "id": "(CH-cha-talla-l-chaqueta-ambiental-forrada",
+          "name": "(CHA) Talla L Chaqueta Ambiental Forrada",
+          "price": 140000
+        },
+        {
+          "id": "(CH-cha-talla-l-chaqueta-ambiental-sin-forro",
+          "name": "(CHA) Talla L Chaqueta Ambiental Sin Forro",
+          "price": 120000
+        },
+        {
+          "id": "(CH-cha-talla-xl-chaqueta-ambiental-forrada",
+          "name": "(CHA) Talla XL Chaqueta Ambiental Forrada",
+          "price": 140000
+        },
+        {
+          "id": "(CH-cha-talla-xl-chaqueta-ambiental-sin-forro",
+          "name": "(CHA) Talla XL Chaqueta Ambiental Sin Forro",
+          "price": 120000
+        },
+        {
+          "id": "(CH-cha-talla-xs-chaqueta-ambiental-forrada",
+          "name": "(CHA) Talla XS Chaqueta Ambiental Forrada",
+          "price": 140000
+        },
+        {
+          "id": "(CH-cha-talla-xs-chaqueta-ambiental-sin-forro",
+          "name": "(CHA) Talla XS Chaqueta Ambiental Sin Forro",
+          "price": 120000
+        },
+        {
+          "id": "(CH-cha-talla-xxl-chaqueta-ambiental-forrada",
+          "name": "(CHA) Talla XXL Chaqueta Ambiental Forrada",
+          "price": 140000
+        },
+        {
+          "id": "(CH-cha-talla-xxl-chaqueta-ambiental-sin-forro",
+          "name": "(CHA) Talla XXL Chaqueta Ambiental Sin Forro",
+          "price": 120000
+        }
+      ]
+    },
+    {
+      "id": "chaqueta-ecci",
+      "name": "CHAQUETA ECCI",
+      "items": [
+        {
+          "id": "(CE-cem-talla-s-chaqueta-ecci",
+          "name": "(CEM) Talla    S Chaqueta ECCI",
+          "price": 115000
+        },
+        {
+          "id": "(CE-cem-talla-m-chaqueta-ecci",
+          "name": "(CEM) Talla   M Chaqueta ECCI",
+          "price": 115000
+        },
+        {
+          "id": "(CE-cem-talla-l-chaqueta-ecci",
+          "name": "(CEM) Talla L Chaqueta ECCI",
+          "price": 115000
+        },
+        {
+          "id": "(CE-cem-talla-xl-chaqueta-ecci",
+          "name": "(CEM) Talla XL Chaqueta ECCI",
+          "price": 115000
+        },
+        {
+          "id": "(CE-cem-talla-xs-chaqueta-ecci",
+          "name": "(CEM) Talla XS chaqueta ECCI",
+          "price": 115000
+        },
+        {
+          "id": "(CE-cem-talla-xxl-chaqueta-ecci",
+          "name": "(CEM) Talla XXL Chaqueta ECCI",
+          "price": 120000
+        },
+        {
+          "id": "(CE-cem-talla-xxxl-chaqueta-ecci",
+          "name": "(CEM) Talla XXXL Chaqueta ECCI",
+          "price": 120000
+        }
+      ]
+    },
+    {
+      "id": "otros",
+      "name": "OTROS",
+      "items": [
+        {
+          "id": "(O)-o-abre-ojales",
+          "name": "(O) Abre Ojales",
+          "price": 3000
+        },
+        {
+          "id": "(O)-o-bayetilla",
+          "name": "(O) Bayetilla",
+          "price": 3500
+        },
+        {
+          "id": "(O)-o-bristol-destornillador-aguja-fileteadora",
+          "name": "(O) Bristol Destornillador Aguja Fileteadora",
+          "price": 4000
+        },
+        {
+          "id": "(O)-o-caja-bobinas",
+          "name": "(O) Caja Bobinas",
+          "price": 7000
+        },
+        {
+          "id": "(O)-o-caja-de-alfileres",
+          "name": "(O) Caja de Alfileres",
+          "price": 2500
+        },
+        {
+          "id": "(O)-o-caja-de-alfileres",
+          "name": "(O) Caja de Alfileres",
+          "price": 2500
+        },
+        {
+          "id": "(O)-o-carretel",
+          "name": "(O) Carretel",
+          "price": 1500
+        },
+        {
+          "id": "(O)-o-cofia-blanca",
+          "name": "(O) Cofia Blanca",
+          "price": 2000
+        },
+        {
+          "id": "(O)-o-cofia-bordada",
+          "name": "(O) Cofia Bordada",
+          "price": 2000
+        },
+        {
+          "id": "(O)-o-cofia-oruga",
+          "name": "(O) Cofia Oruga",
+          "price": 1500
+        },
+        {
+          "id": "(O)-o-cremallera",
+          "name": "(O) Cremallera",
+          "price": 1500
+        },
+        {
+          "id": "(O)-o-destornilladores",
+          "name": "(O) Destornilladores",
+          "price": 4000
+        },
+        {
+          "id": "(O)-o-destrnillador-pala-grande",
+          "name": "(O) Destrnillador Pala Grande",
+          "price": 9500
+        },
+        {
+          "id": "(O)-o-destrnillador-pala-mediana",
+          "name": "(O) Destrnillador Pala Mediana",
+          "price": 6500
+        },
+        {
+          "id": "(O)-o-destrnillador-pala-pequena",
+          "name": "(O) Destrnillador Pala Pequeña",
+          "price": 4500
+        },
+        {
+          "id": "(O)-o-estuche-para-escuadras-de-diseo-de-modas",
+          "name": "(O) Estuche para Escuadras de Diseo de Modas",
+          "price": 60000
+        },
+        {
+          "id": "(O)-o-gorras",
+          "name": "(O) Gorras",
+          "price": 19000
+        },
+        {
+          "id": "(O)-o-guantes-de-nitrile",
+          "name": "(O) Guantes de Nitrile",
+          "price": 2000
+        },
+        {
+          "id": "(O)-o-guantes-de-nitrile-1",
+          "name": "(O) Guantes de Nitrile_1",
+          "price": 6000
+        },
+        {
+          "id": "(O)-o-guantes-palma-de-nitrilo",
+          "name": "(O) Guantes Palma de Nitrilo",
+          "price": 6000
+        },
+        {
+          "id": "(O)-o-guantes-palma-latex-reforzado",
+          "name": "(O) Guantes Palma Latex Reforzado",
+          "price": 9000
+        },
+        {
+          "id": "(O)-o-guantes-porus",
+          "name": "(O) Guantes Porus",
+          "price": 15000
+        },
+        {
+          "id": "(O)-o-hilo-100",
+          "name": "(O) Hilo 100",
+          "price": 1500
+        },
+        {
+          "id": "(O)-o-hilo-100-poliester-haler-semilla",
+          "name": "(O) Hilo 100 Poliester Haler - Semilla",
+          "price": 5500
+        },
+        {
+          "id": "(O)-o-hilo-100-poliester-haler-semilla",
+          "name": "(O) Hilo 100 Poliester Haler - Semilla",
+          "price": 5500
+        },
+        {
+          "id": "(O)-o-hilo-120",
+          "name": "(O) Hilo 120",
+          "price": 1500
+        },
+        {
+          "id": "(O)-o-hilo-500-yardas",
+          "name": "(O) Hilo 500 Yardas",
+          "price": 2000
+        },
+        {
+          "id": "(O)-o-juego-regla-universales",
+          "name": "(O) Juego Regla Universales",
+          "price": 29000
+        },
+        {
+          "id": "(O)-o-juego-reglas-1-2-escala",
+          "name": "(O) Juego Reglas 1/2 escala",
+          "price": 15000
+        },
+        {
+          "id": "(O)-o-juego-reglas-1-4-escala",
+          "name": "(O) Juego Reglas 1/4 escala",
+          "price": 13000
+        },
+        {
+          "id": "(O)-o-kit-para-maquinas",
+          "name": "(O) Kit para Maquinas",
+          "price": 12000
+        },
+        {
+          "id": "(O)-o-metro",
+          "name": "(O) Metro",
+          "price": 4000
+        },
+        {
+          "id": "(O)-o-mono-gafas",
+          "name": "(O) Mono gafas",
+          "price": 14000
+        },
+        {
+          "id": "(O)-o-pie-compensado",
+          "name": "(O) Pie compensado",
+          "price": 10000
+        },
+        {
+          "id": "(O)-o-pie-normal-maquina-plana",
+          "name": "(O) Pie normal - Maquina Plana",
+          "price": 10000
+        },
+        {
+          "id": "(O)-o-pie-para-cremallera",
+          "name": "(O) Pie para cremallera",
+          "price": 10000
+        },
+        {
+          "id": "(O)-o-pie-para-cremallera-invisible",
+          "name": "(O) Pie para cremallera invisible",
+          "price": 11000
+        },
+        {
+          "id": "(O)-o-pie-teflon",
+          "name": "(O) Pie Teflon",
+          "price": 11000
+        },
+        {
+          "id": "(O)-o-pinza-para-fileteadora",
+          "name": "(O) Pinza Para Fileteadora",
+          "price": 11000
+        },
+        {
+          "id": "(O)-o-porta-vestidos",
+          "name": "(O) Porta-Vestidos",
+          "price": 50000
+        },
+        {
+          "id": "(O)-o-regla-1-4-de-escala-milimetros",
+          "name": "(O) Regla 1/4 de Escala milimetros",
+          "price": 4500
+        },
+        {
+          "id": "(O)-o-rematadores",
+          "name": "(O) Rematadores",
+          "price": 4000
+        },
+        {
+          "id": "(O)-o-rodaja",
+          "name": "(O) Rodaja",
+          "price": 5500
+        },
+        {
+          "id": "(O)-o-rodaja-de-alfileres",
+          "name": "(O) Rodaja de Alfileres",
+          "price": 6500
+        },
+        {
+          "id": "(O)-o-tapa-boca-desechable",
+          "name": "(O) Tapa Boca Desechable",
+          "price": 1500
+        },
+        {
+          "id": "(O)-o-tapa-oidos-desechables",
+          "name": "(O) Tapa oidos desechables",
+          "price": 2000
+        },
+        {
+          "id": "(O)-o-tapa-o-dos",
+          "name": "(O) Tapa o¡dos",
+          "price": 4000
+        },
+        {
+          "id": "(O)-o-tapaboca-en-tela",
+          "name": "(O) Tapaboca en Tela",
+          "price": 7500
+        },
+        {
+          "id": "(O)-o-tijera",
+          "name": "(O) Tijera",
+          "price": 17000
+        },
+        {
+          "id": "(O)-o-tiza-industrial",
+          "name": "(O) Tiza Industrial",
+          "price": 1500
+        },
+        {
+          "id": "(O)-o-tornillo-aguja",
+          "name": "(O) Tornillo aguja",
+          "price": 1500
+        },
+        {
+          "id": "(O)-o-tornillo-pie-plana",
+          "name": "(O) Tornillo Pie Plana",
+          "price": 1500
+        }
+      ]
+    },
+    {
+      "id": "overol-mecanica",
+      "name": "OVEROL MECANICA",
+      "items": [
+        {
+          "id": "(OA-oa-talla-s-36-overol-mecanica",
+          "name": "(OA) Talla    S (36) OVEROL MECANICA",
+          "price": 120000
+        },
+        {
+          "id": "(OA-oa-talla-m-38-overol-mecanica",
+          "name": "(OA) Talla   M (38) OVEROL MECANICA",
+          "price": 120000
+        },
+        {
+          "id": "(OA-oa-talla-l-40-overol-mecanica",
+          "name": "(OA) Talla L (40) OVEROL MECANICA",
+          "price": 130000
+        },
+        {
+          "id": "(OA-oa-talla-xl-42-overol-mecanica",
+          "name": "(OA) Talla XL (42) OVEROL MECANICA",
+          "price": 130000
+        },
+        {
+          "id": "(OA-oa-talla-xs-34-overol-mecanica",
+          "name": "(OA) Talla XS (34) OVEROL MECANICA",
+          "price": 120000
+        },
+        {
+          "id": "(OA-oa-talla-xxl-44-overol-mecanica",
+          "name": "(OA) Talla XXL (44) OVEROL MECANICA",
+          "price": 140000
+        },
+        {
+          "id": "(OA-oa-talla-xxxl-46-overol-mecanica",
+          "name": "(OA) Talla XXXL (46) OVEROL MECANICA",
+          "price": 140000
+        },
+        {
+          "id": "(OA-oa-talla-xxxl-48-overol-mecanica",
+          "name": "(OA) Talla XXXL (48) OVEROL MECANICA",
+          "price": 140000
+        },
+        {
+          "id": "(OA-oa-talla-xxxxl-50-overol-mecanica",
+          "name": "(OA) Talla XXXXL (50) OVEROL MECANICA",
+          "price": 140000
+        },
+        {
+          "id": "(OA-oa-talla-xxxxl-52-overol-mecanica",
+          "name": "(OA) Talla XXXXL (52) OVEROL MECANICA",
+          "price": 140000
+        }
+      ]
+    },
+    {
+      "id": "overol-mecatronica",
+      "name": "OVEROL MECATRONICA",
+      "items": [
+        {
+          "id": "(OM-om-talla-s-36-overol-mecatronica",
+          "name": "(OM) Talla    S (36) OVEROL MECATRONICA",
+          "price": 118000
+        },
+        {
+          "id": "(OM-om-talla-m-38-overol-mecatronica",
+          "name": "(OM) Talla   M (38) OVEROL MECATRONICA",
+          "price": 118000
+        },
+        {
+          "id": "(OM-om-talla-l-40-overol-mecatronica",
+          "name": "(OM) Talla L (40) OVEROL MECATRONICA",
+          "price": 118000
+        },
+        {
+          "id": "(OM-om-talla-xl-42-overol-mecatronica",
+          "name": "(OM) Talla XL (42) OVEROL MECATRONICA",
+          "price": 118000
+        },
+        {
+          "id": "(OM-om-talla-xs-34-overol-mecatronica",
+          "name": "(OM) Talla XS (34) OVEROL MECATRONICA",
+          "price": 118000
+        },
+        {
+          "id": "(OM-om-talla-xxl-44-overol-mecatronica",
+          "name": "(OM) Talla XXL (44) OVEROL MECATRONICA",
+          "price": 126000
+        },
+        {
+          "id": "(OM-om-talla-xxxl-46-overol-mecatronica",
+          "name": "(OM) Talla XXXL (46) OVEROL MECATRONICA",
+          "price": 126000
+        },
+        {
+          "id": "(OM-om-talla-xxxxl-50-overol-mecatronica",
+          "name": "(OM) Talla XXXXL (50) OVEROL MECATRONICA",
+          "price": 126000
+        }
+      ]
+    },
+    {
+      "id": "overol-plastico",
+      "name": "OVEROL PLASTICO",
+      "items": [
+        {
+          "id": "(OP-op-talla-s-36-overol-plastico",
+          "name": "(OP) Talla    S (36) OVEROL PLASTICO",
+          "price": 118000
+        },
+        {
+          "id": "(OP-op-talla-m-38-overol-plastico",
+          "name": "(OP) Talla   M (38) OVEROL PLASTICO",
+          "price": 118000
+        },
+        {
+          "id": "(OP-op-talla-l-40-overol-plastico",
+          "name": "(OP) Talla L (40) OVEROL PLASTICO",
+          "price": 118000
+        },
+        {
+          "id": "(OP-op-talla-xl-42-overol-plastico",
+          "name": "(OP) Talla XL (42) OVEROL PLASTICO",
+          "price": 118000
+        },
+        {
+          "id": "(OP-op-talla-xs-34-overol-plastico",
+          "name": "(OP) Talla XS (34) OVEROL PLASTICO",
+          "price": 118000
+        },
+        {
+          "id": "(OP-op-talla-xxl-44-overol-plastico",
+          "name": "(OP) Talla XXL (44) OVEROL PLASTICO",
+          "price": 126000
+        },
+        {
+          "id": "(OP-op-talla-xxxl-46-overol-plastico",
+          "name": "(OP) Talla XXXL (46) OVEROL PLASTICO",
+          "price": 126000
+        },
+        {
+          "id": "(OP-op-talla-xxxxl-48-overol-plastico",
+          "name": "(OP) Talla XXXXL (48) OVEROL PLASTICO",
+          "price": 126000
+        }
+      ]
+    },
+    {
+      "id": "uniforme-enfermeria-azul-hombre",
+      "name": "UNIFORME ENFERMERIA AZUL HOMBRE",
+      "items": [
+        {
+          "id": "(UE-ueah-talla-s-enfermeria-blusa-azul-hombre",
+          "name": "(UEAH) Talla    S Enfermeria  Blusa Azul Hombre",
+          "price": 80000
+        },
+        {
+          "id": "(UE-ueah-talla-s-enfermeria-pantalon-azul-hombre",
+          "name": "(UEAH) Talla    S Enfermeria  pantalon Azul Hombre",
+          "price": 68000
+        },
+        {
+          "id": "(UE-ueah-talla-m-enfermeria-blusa-azul-hombre",
+          "name": "(UEAH) Talla   M Enfermeria  Blusa Azul Hombre",
+          "price": 80000
+        },
+        {
+          "id": "(UE-ueah-talla-m-enfermeria-pantalon-azul-hombre",
+          "name": "(UEAH) Talla   M Enfermeria  pantalon Azul Hombre",
+          "price": 68000
+        },
+        {
+          "id": "(UE-ueah-talla-l-enfermeria-blusa-azul-hombre",
+          "name": "(UEAH) Talla L Enfermeria  Blusa Azul Hombre",
+          "price": 80000
+        },
+        {
+          "id": "(UE-ueah-talla-l-enfermeria-pantalon-azul-hombre",
+          "name": "(UEAH) Talla L Enfermeria  pantalon Azul Hombre",
+          "price": 68000
+        },
+        {
+          "id": "(UE-ueah-talla-xl-enfermeria-blusa-azul-hombre",
+          "name": "(UEAH) Talla XL Enfermeria  Blusa Azul Hombre",
+          "price": 86000
+        },
+        {
+          "id": "(UE-ueah-talla-xl-enfermeria-pantalon-azul-hombre",
+          "name": "(UEAH) Talla XL Enfermeria  pantalon Azul Hombre",
+          "price": 74000
+        },
+        {
+          "id": "(UE-ueah-talla-xs-enfermeria-blusa-azul-hombre",
+          "name": "(UEAH) Talla XS Enfermeria  Blusa Azul Hombre",
+          "price": 80000
+        },
+        {
+          "id": "(UE-ueah-talla-xs-enfermeria-pantalon-azul-hombre",
+          "name": "(UEAH) Talla XS Enfermeria  pantalon Azul Hombre",
+          "price": 76000
+        },
+        {
+          "id": "(UE-ueah-talla-xxl-enfermeria-blusa-azul-hombre",
+          "name": "(UEAH) Talla XXL Enfermeria  Blusa Azul Hombre",
+          "price": 86000
+        },
+        {
+          "id": "(UE-ueah-talla-xxl-enfermeria-pantalon-azul-hombre",
+          "name": "(UEAH) Talla XXL Enfermeria  pantalon Azul Hombre",
+          "price": 74000
+        }
+      ]
+    },
+    {
+      "id": "uniforme-enfermeria-azul-mujer",
+      "name": "UNIFORME ENFERMERIA AZUL MUJER",
+      "items": [
+        {
+          "id": "(UE-ueam-talla-06-enfermeria-blusa-azul-mujer",
+          "name": "(UEAM) Talla 06 Enfermeria Blusa Azul Mujer",
+          "price": 80000
+        },
+        {
+          "id": "(UE-ueam-talla-06-enfermeria-pantalon-azul-mujer",
+          "name": "(UEAM) Talla 06 Enfermeria pantalon Azul Mujer",
+          "price": 68000
+        },
+        {
+          "id": "(UE-ueam-talla-08-enfermeria-blusa-azul-mujer",
+          "name": "(UEAM) Talla 08 Enfermeria Blusa Azul Mujer",
+          "price": 80000
+        },
+        {
+          "id": "(UE-ueam-talla-08-enfermeria-pantalon-azul-mujer",
+          "name": "(UEAM) Talla 08 Enfermeria pantalon Azul Mujer",
+          "price": 68000
+        },
+        {
+          "id": "(UE-ueam-talla-10-enfermeria-blusa-azul-mujer",
+          "name": "(UEAM) Talla 10 Enfermeria Blusa Azul  Mujer",
+          "price": 80000
+        },
+        {
+          "id": "(UE-ueam-talla-10-enfermeria-pantalon-azul-mujer",
+          "name": "(UEAM) Talla 10 Enfermeria pantalon Azul Mujer",
+          "price": 68000
+        },
+        {
+          "id": "(UE-ueam-talla-12-enfermeria-blusa-azul-mujer",
+          "name": "(UEAM) Talla 12 Enfermeria Blusa Azul Mujer",
+          "price": 80000
+        },
+        {
+          "id": "(UE-ueam-talla-12-enfermeria-pantalon-azul-mujer",
+          "name": "(UEAM) Talla 12 Enfermeria pantalon Azul Mujer",
+          "price": 68000
+        },
+        {
+          "id": "(UE-ueam-talla-14-enfermeria-blusa-azul-mujer",
+          "name": "(UEAM) Talla 14 Enfermeria Blusa Azul Mujer",
+          "price": 83000
+        },
+        {
+          "id": "(UE-ueam-talla-14-enfermeria-pantalon-azul-mujer",
+          "name": "(UEAM) Talla 14 Enfermeria pantalon Azul Mujer",
+          "price": 74000
+        },
+        {
+          "id": "(UE-ueam-talla-16-enfermeria-blusa-azul-mujer",
+          "name": "(UEAM) Talla 16 Enfermeria Blusa Azul Mujer",
+          "price": 83000
+        },
+        {
+          "id": "(UE-ueam-talla-16-enfermeria-pantalon-azul-mujer",
+          "name": "(UEAM) Talla 16 Enfermeria pantalon Azul Mujer",
+          "price": 74000
+        },
+        {
+          "id": "(UE-ueam-talla-18-enfermeria-azul-blusa",
+          "name": "(UEAM) Talla 18 Enfermeria azul blusa",
+          "price": 83000
+        },
+        {
+          "id": "(UE-ueam-talla-18-enfermeria-azul-pantalon",
+          "name": "(UEAM) Talla 18 Enfermeria azul pantalon",
+          "price": 74000
+        },
+        {
+          "id": "(UE-ueam-talla-20-enfermeria-azul-pantalon",
+          "name": "(UEAM) Talla 20 Enfermeria azul pantalon",
+          "price": 74000
+        }
+      ]
+    },
+    {
+      "id": "uniforme-enfermeria-blanco-hombre",
+      "name": "UNIFORME ENFERMERIA BLANCO HOMBRE",
+      "items": [
+        {
+          "id": "(UE-uebh-talla-s-enfermeria-blusa-blanco-hombre",
+          "name": "(UEBH) Talla    S Enfermeria  Blusa Blanco Hombre",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uebh-talla-s-enfermeria-pantalon-blanco-hombre",
+          "name": "(UEBH) Talla    S Enfermeria  pantalon Blanco Hombre",
+          "price": 68000
+        },
+        {
+          "id": "(UE-uebh-talla-m-enfermeria-blusa-blanco-hombre",
+          "name": "(UEBH) Talla   M Enfermeria  Blusa Blanco Hombre",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uebh-talla-m-enfermeria-pantalon-blanco-hombre",
+          "name": "(UEBH) Talla   M Enfermeria  pantalon Blanco Hombre",
+          "price": 68000
+        },
+        {
+          "id": "(UE-uebh-talla-l-enfermeria-blusa-blanco-hombre",
+          "name": "(UEBH) Talla L Enfermeria  Blusa Blanco Hombre",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uebh-talla-l-enfermeria-pantalon-blanco-hombre",
+          "name": "(UEBH) Talla L Enfermeria  pantalon Blanco Hombre",
+          "price": 68000
+        },
+        {
+          "id": "(UE-uebh-talla-xl-enfermeria-blusa-blanco-hombre",
+          "name": "(UEBH) Talla XL Enfermeria  Blusa Blanco Hombre",
+          "price": 86000
+        },
+        {
+          "id": "(UE-uebh-talla-xl-enfermeria-pantalon-blanco-hombre",
+          "name": "(UEBH) Talla XL Enfermeria  pantalon Blanco Hombre",
+          "price": 75000
+        },
+        {
+          "id": "(UE-uebh-talla-xs-enfermeria-blusa-blanco-hombre",
+          "name": "(UEBH) Talla XS Enfermeria  Blusa Blanco Hombre",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uebh-talla-xs-enfermeria-pantalon-blanco-hombre",
+          "name": "(UEBH) Talla XS Enfermeria  pantalon Blanco Hombre",
+          "price": 68000
+        },
+        {
+          "id": "(UE-uebh-talla-xxl-enfermeria-blusa-blanco-hombre",
+          "name": "(UEBH) Talla XXL Enfermeria  Blusa Blanco Hombre",
+          "price": 86000
+        },
+        {
+          "id": "(UE-uebh-talla-xxl-enfermeria-pantalon-blanco-hombre",
+          "name": "(UEBH) Talla XXL Enfermeria  pantalon Blanco Hombre",
+          "price": 75000
+        }
+      ]
+    },
+    {
+      "id": "uniforme-enfermeria-blanco-mujer",
+      "name": "UNIFORME ENFERMERIA BLANCO MUJER",
+      "items": [
+        {
+          "id": "(UE-uebm-talla-06-enfermeria-blusa-blanco-mujer",
+          "name": "(UEBM) Talla 06 Enfermeria Blusa Blanco Mujer",
+          "price": 78000
+        },
+        {
+          "id": "(UE-uebm-talla-06-enfermeria-pantalon-blanco-mujer",
+          "name": "(UEBM) Talla 06 Enfermeria pantalon Blanco Mujer",
+          "price": 68000
+        },
+        {
+          "id": "(UE-uebm-talla-08-enfermeria-blusa-blanco-mujer",
+          "name": "(UEBM) Talla 08 Enfermeria Blusa Blanco Mujer",
+          "price": 78000
+        },
+        {
+          "id": "(UE-uebm-talla-08-enfermeria-pantalon-blanco-mujer",
+          "name": "(UEBM) Talla 08 Enfermeria pantalon Blanco Mujer",
+          "price": 68000
+        },
+        {
+          "id": "(UE-uebm-talla-10-enfermeria-blusa-blanco-mujer",
+          "name": "(UEBM) Talla 10 Enfermeria Blusa Blanco  Mujer",
+          "price": 78000
+        },
+        {
+          "id": "(UE-uebm-talla-10-enfermeria-pantalon-blanco-mujer",
+          "name": "(UEBM) Talla 10 Enfermeria pantalon Blanco Mujer",
+          "price": 68000
+        },
+        {
+          "id": "(UE-uebm-talla-12-enfermeria-blusa-blanco-mujer",
+          "name": "(UEBM) Talla 12 Enfermeria Blusa Blanco Mujer",
+          "price": 78000
+        },
+        {
+          "id": "(UE-uebm-talla-12-enfermeria-pantalon-blanco-mujer",
+          "name": "(UEBM) Talla 12 Enfermeria pantalon Blanco Mujer",
+          "price": 68000
+        },
+        {
+          "id": "(UE-uebm-talla-14-enfermeria-blusa-blanco-mujer",
+          "name": "(UEBM) Talla 14 Enfermeria Blusa Blanco Mujer",
+          "price": 83000
+        },
+        {
+          "id": "(UE-uebm-talla-14-enfermeria-pantalon-blanco-mujer",
+          "name": "(UEBM) Talla 14 Enfermeria pantalon Blanco Mujer",
+          "price": 75000
+        },
+        {
+          "id": "(UE-uebm-talla-16-enfermeria-blusa-blanco-mujer",
+          "name": "(UEBM) Talla 16 Enfermeria Blusa Blanco Mujer",
+          "price": 83000
+        },
+        {
+          "id": "(UE-uebm-talla-16-enfermeria-pantalon-blanco-mujer",
+          "name": "(UEBM) Talla 16 Enfermeria pantalon Blanco Mujer",
+          "price": 75000
+        },
+        {
+          "id": "(UE-uebm-talla-18-enfermeria-blusa-blanco-mujer",
+          "name": "(UEBM) Talla 18 Enfermeria Blusa Blanco Mujer",
+          "price": 83000
+        },
+        {
+          "id": "(UE-uebm-talla-18-enfermeria-pantalon-blanco-mujer",
+          "name": "(UEBM) Talla 18 Enfermeria pantalon Blanco Mujer",
+          "price": 75000
+        }
+      ]
+    },
+    {
+      "id": "uniforme-enfermeria-cirug-a",
+      "name": "UNIFORME ENFERMERIA CIRUG¡A",
+      "items": [
+        {
+          "id": "(UE-uesc-talla-s-enf-cirug-a-blusa",
+          "name": "(UESC) Talla    S Enf. Cirug¡a blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uesc-talla-s-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla    S Enf. Cirug¡a pantalon",
+          "price": 54000
+        },
+        {
+          "id": "(UE-uesc-talla-m-enf-cirug-a-busa",
+          "name": "(UESC) Talla   M Enf. Cirug¡a Busa",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uesc-talla-m-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla   M Enf. Cirug¡a pantalon",
+          "price": 54000
+        },
+        {
+          "id": "(UE-uesc-talla-06-enf-cirug-a-busa",
+          "name": "(UESC) Talla 06 Enf. Cirug¡a Busa",
+          "price": 78000
+        },
+        {
+          "id": "(UE-uesc-talla-06-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla 06 Enf. Cirug¡a pantalon",
+          "price": 50000
+        },
+        {
+          "id": "(UE-uesc-talla-08-enf-cirug-a-blusa",
+          "name": "(UESC) Talla 08 Enf. Cirug¡a Blusa",
+          "price": 78000
+        },
+        {
+          "id": "(UE-uesc-talla-08-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla 08 Enf. Cirug¡a pantalon",
+          "price": 50000
+        },
+        {
+          "id": "(UE-uesc-talla-10-enf-cirug-a-busa",
+          "name": "(UESC) Talla 10 Enf. Cirug¡a Busa",
+          "price": 78000
+        },
+        {
+          "id": "(UE-uesc-talla-10-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla 10 Enf. Cirug¡a pantalon",
+          "price": 50000
+        },
+        {
+          "id": "(UE-uesc-talla-12-enf-cirug-a-blusa",
+          "name": "(UESC) Talla 12 Enf. Cirug¡a Blusa",
+          "price": 78000
+        },
+        {
+          "id": "(UE-uesc-talla-12-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla 12 Enf. Cirug¡a pantalon",
+          "price": 50000
+        },
+        {
+          "id": "(UE-uesc-talla-14-enf-cirug-a-blusa",
+          "name": "(UESC) Talla 14 Enf. Cirug¡a Blusa",
+          "price": 78000
+        },
+        {
+          "id": "(UE-uesc-talla-14-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla 14 Enf. Cirug¡a pantalon",
+          "price": 54000
+        },
+        {
+          "id": "(UE-uesc-talla-16-enf-cirug-a-blusa",
+          "name": "(UESC) Talla 16 Enf. Cirug¡a Blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uesc-talla-16-enf-cirug-a-blusa",
+          "name": "(UESC) Talla 16 Enf. Cirug¡a Blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uesc-talla-16-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla 16 Enf. Cirug¡a pantalon",
+          "price": 56000
+        },
+        {
+          "id": "(UE-uesc-talla-16-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla 16 Enf. Cirug¡a pantalon",
+          "price": 56000
+        },
+        {
+          "id": "(UE-uesc-talla-18-enf-cirug-a-blusa",
+          "name": "(UESC) Talla 18 Enf. Cirug¡a Blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uesc-talla-18-enf-cirug-a-blusa",
+          "name": "(UESC) Talla 18 Enf. Cirug¡a Blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uesc-talla-18-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla 18 Enf. Cirug¡a pantalon",
+          "price": 56000
+        },
+        {
+          "id": "(UE-uesc-talla-18-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla 18 Enf. Cirug¡a pantalon",
+          "price": 56000
+        },
+        {
+          "id": "(UE-uesc-talla-l-enf-cirug-a-blusa",
+          "name": "(UESC) Talla L Enf. Cirug¡a blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uesc-talla-l-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla L Enf. Cirug¡a pantalon",
+          "price": 54000
+        },
+        {
+          "id": "(UE-uesc-talla-xl-enf-cirugia-blusa",
+          "name": "(UESC) Talla XL Enf. Cirugia blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uesc-talla-xl-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla XL Enf. Cirug¡a pantalon",
+          "price": 54000
+        },
+        {
+          "id": "(UE-uesc-talla-xs-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla XS Enf. Cirug¡a pantalon",
+          "price": 54000
+        },
+        {
+          "id": "(UE-uesc-talla-xs-enf-cirug-a-blusa",
+          "name": "(UESC) Talla XS Enf.Cirug¡a blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UE-uesc-talla-xxl-enf-cirug-a-blusa",
+          "name": "(UESC) Talla XXL Enf. Cirug¡a blusa",
+          "price": 86000
+        },
+        {
+          "id": "(UE-uesc-talla-xxl-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla XXL Enf. Cirug¡a pantalon",
+          "price": 58000
+        },
+        {
+          "id": "(UE-uesc-talla-xxxl-enf-cirug-a-blusa",
+          "name": "(UESC) Talla XXXL Enf. Cirug¡a blusa",
+          "price": 86000
+        },
+        {
+          "id": "(UE-uesc-talla-xxxl-enf-cirug-a-pantalon",
+          "name": "(UESC) Talla XXXL Enf. Cirug¡a pantalon",
+          "price": 58000
+        }
+      ]
+    },
+    {
+      "id": "uniforme-gastronomia",
+      "name": "UNIFORME GASTRONOMIA",
+      "items": [
+        {
+          "id": "(UG-ug-talla-s-blusa-gastronomia",
+          "name": "(UG) Talla    S Blusa Gastronomia",
+          "price": 76000
+        },
+        {
+          "id": "(UG-ug-talla-s-pantalon-gastronomia",
+          "name": "(UG) Talla    S Pantalon Gastronomia",
+          "price": 54000
+        },
+        {
+          "id": "(UG-ug-talla-m-blusa-gastronomia",
+          "name": "(UG) Talla   M Blusa Gastronomia",
+          "price": 76000
+        },
+        {
+          "id": "(UG-ug-talla-m-pantalon-gastronomia",
+          "name": "(UG) Talla   M Pantalon Gastronomia",
+          "price": 54000
+        },
+        {
+          "id": "(UG-ug-talla-l-blusa-gastronomia",
+          "name": "(UG) Talla L Blusa Gastronomia",
+          "price": 76000
+        },
+        {
+          "id": "(UG-ug-talla-l-pantalon-gastronomia",
+          "name": "(UG) Talla L Pantalon Gastronomia",
+          "price": 54000
+        },
+        {
+          "id": "(UG-ug-talla-xl-blusa-gastronomia",
+          "name": "(UG) Talla XL Blusa Gastronomia",
+          "price": 85000
+        },
+        {
+          "id": "(UG-ug-talla-xl-pantalon-gastronomia",
+          "name": "(UG) Talla XL Pantalon Gastronomia",
+          "price": 58000
+        },
+        {
+          "id": "(UG-ug-talla-xs-a-xl-delantal-peto",
+          "name": "(UG) Talla XS a XL-  Delantal peto",
+          "price": 50000
+        },
+        {
+          "id": "(UG-ug-talla-xs-a-xl-gorro-gastronomia",
+          "name": "(UG) Talla XS a XL- Gorro Gastronomia",
+          "price": 35000
+        },
+        {
+          "id": "(UG-ug-talla-xs-blusa-gastronomia",
+          "name": "(UG) Talla XS Blusa Gastronomia",
+          "price": 76000
+        },
+        {
+          "id": "(UG-ug-talla-xs-pantalon-gastronomia",
+          "name": "(UG) Talla XS Pantalon Gastronomia",
+          "price": 54000
+        },
+        {
+          "id": "(UG-ug-talla-xxl-blusa-gastronomia",
+          "name": "(UG) Talla XXL Blusa Gastronomia",
+          "price": 85000
+        },
+        {
+          "id": "(UG-ug-talla-xxl-delantal-peto",
+          "name": "(UG) Talla XXL Delantal peto",
+          "price": 56000
+        },
+        {
+          "id": "(UG-ug-talla-xxl-gorro-gastronomia",
+          "name": "(UG) Talla XXL Gorro Gastronomia",
+          "price": 35000
+        },
+        {
+          "id": "(UG-ug-talla-xxl-pantalon-gastronomia",
+          "name": "(UG) Talla XXL Pantalon Gastronomia",
+          "price": 58000
+        },
+        {
+          "id": "(UG-ug-talla-xxxl-blusa-gastronomia",
+          "name": "(UG) Talla XXXL Blusa Gastronomia",
+          "price": 86000
+        },
+        {
+          "id": "(UG-ug-talla-xxxl-pantalon-gastronomia",
+          "name": "(UG) Talla XXXL Pantalon Gastronomia",
+          "price": 60000
+        }
+      ]
+    },
+    {
+      "id": "uniforme-gastronomia-profesional",
+      "name": "UNIFORME GASTRONOMIA PROFESIONAL",
+      "items": [
+        {
+          "id": "(UG-ugpro-blusa-s-gastronomia",
+          "name": "(UGPRO) Blusa    S Gastronomia",
+          "price": 90000
+        },
+        {
+          "id": "(UG-ugpro-blusa-m-gastronomia",
+          "name": "(UGPRO) Blusa   M Gastronomia",
+          "price": 90000
+        },
+        {
+          "id": "(UG-ugpro-blusa-l-gastronomia",
+          "name": "(UGPRO) Blusa L Gastronomia",
+          "price": 90000
+        },
+        {
+          "id": "(UG-ugpro-blusa-xl-gastrinom-a",
+          "name": "(UGPRO) Blusa XL Gastrinom¡a",
+          "price": 100000
+        },
+        {
+          "id": "(UG-ugpro-blusa-xs-gastronoma",
+          "name": "(UGPRO) Blusa XS Gastronoma",
+          "price": 90000
+        },
+        {
+          "id": "(UG-ugpro-blusa-xxl-gastronomia",
+          "name": "(UGPRO) Blusa XXL Gastronomia",
+          "price": 100000
+        },
+        {
+          "id": "(UG-ugpro-blusa-xxxl-gastronomia",
+          "name": "(UGPRO) Blusa XXXL Gastronomia",
+          "price": 100000
+        },
+        {
+          "id": "(UG-ugpro-delantal-xs-a-xl-gastronomia",
+          "name": "(UGPRO) Delantal XS a XL Gastronomia",
+          "price": 50000
+        },
+        {
+          "id": "(UG-ugpro-delantal-xxl-gastronomia",
+          "name": "(UGPRO) Delantal XXL Gastronomia",
+          "price": 55000
+        },
+        {
+          "id": "(UG-ugpro-gorro-gastronm-a-xs-a-xl",
+          "name": "(UGPRO) Gorro  Gastronm¡a XS a XL",
+          "price": 42000
+        },
+        {
+          "id": "(UG-ugpro-gorro-xxl-gastronomia",
+          "name": "(UGPRO) Gorro XXL Gastronomia",
+          "price": 42000
+        },
+        {
+          "id": "(UG-ugpro-pantalon-s-gastronm-a",
+          "name": "(UGPRO) pantalon    S Gastronm¡a",
+          "price": 54000
+        },
+        {
+          "id": "(UG-ugpro-pantalon-m-gastronomia",
+          "name": "(UGPRO) pantalon  M Gastronomia",
+          "price": 54000
+        },
+        {
+          "id": "(UG-ugpro-pantalon-l-gastronomia",
+          "name": "(UGPRO) pantalon L Gastronomia",
+          "price": 54000
+        },
+        {
+          "id": "(UG-ugpro-pantalon-xl-gstronom-a",
+          "name": "(UGPRO) pantalon XL Gstronom¡a",
+          "price": 58000
+        },
+        {
+          "id": "(UG-ugpro-pantalon-xs-gastronomia",
+          "name": "(UGPRO) pantalon XS Gastronomia",
+          "price": 58000
+        },
+        {
+          "id": "(UG-ugpro-pantalon-xxl-gastronomia",
+          "name": "(UGPRO) pantalon XXL Gastronomia",
+          "price": 58000
+        },
+        {
+          "id": "(UG-ugpro-pantalon-xxxl-gastronomia",
+          "name": "(UGPRO) pantalon XXXL Gastronomia",
+          "price": 58000
+        }
+      ]
+    },
+    {
+      "id": "uniforme-ing-biomedica-hombre",
+      "name": "UNIFORME ING BIOMEDICA HOMBRE",
+      "items": [
+        {
+          "id": "(UB-ubh-talla-s-ing-biomedica-blusa",
+          "name": "(UBH) Talla    S ING Biomedica blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UB-ubh-talla-s-ing-biomedica-pantalon",
+          "name": "(UBH) Talla    S ING Biomedica pantalon",
+          "price": 68000
+        },
+        {
+          "id": "(UB-ubh-talla-m-ing-biomedica-blusa",
+          "name": "(UBH) Talla   M ING Biomedica blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UB-ubh-talla-m-ing-biomedica-pantalon",
+          "name": "(UBH) Talla   M ING Biomedica pantalon",
+          "price": 68000
+        },
+        {
+          "id": "(UB-ubh-talla-l-ing-biomedica-blusa",
+          "name": "(UBH) Talla L ING Biomedica blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UB-ubh-talla-l-ing-biomedica-pantalon",
+          "name": "(UBH) Talla L ING Biomedica pantalon",
+          "price": 68000
+        },
+        {
+          "id": "(UB-ubh-talla-xl-ing-biomedica-blusa",
+          "name": "(UBH) Talla XL ING Biomedica blusa",
+          "price": 86000
+        },
+        {
+          "id": "(UB-ubh-talla-xl-ing-biomedica-pantalon",
+          "name": "(UBH) Talla XL ING Biomedica pantalon",
+          "price": 74000
+        },
+        {
+          "id": "(UB-ubh-talla-xs-ing-biomedica-blusa",
+          "name": "(UBH) Talla XS ING Biomedica blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UB-ubh-talla-xs-ing-biomedica-pantalon",
+          "name": "(UBH) Talla XS ING Biomedica pantalon",
+          "price": 68000
+        },
+        {
+          "id": "(UB-ubh-talla-xxl-ing-biomedica-blusa",
+          "name": "(UBH) Talla XXL ING Biomedica blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UB-ubh-talla-xxl-ing-biomedica-pantalon",
+          "name": "(UBH) Talla XXL ING Biomedica pantalon",
+          "price": 74000
+        }
+      ]
+    },
+    {
+      "id": "uniforme-ing-biomedica-mujer",
+      "name": "UNIFORME ING BIOMEDICA MUJER",
+      "items": [
+        {
+          "id": "(UB-ubm-talla-06-ing-biomedica-blusa",
+          "name": "(UBM) Talla 06 ING Biomedica blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UB-ubm-talla-06-ing-biomedica-pantalon",
+          "name": "(UBM) Talla 06 ING Biomedica pantalon",
+          "price": 68000
+        },
+        {
+          "id": "(UB-ubm-talla-08-ing-biomedica-blusa",
+          "name": "(UBM) Talla 08 ING Biomedica blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UB-ubm-talla-08-ing-biomedica-pantalon",
+          "name": "(UBM) Talla 08 ING Biomedica pantalon",
+          "price": 68000
+        },
+        {
+          "id": "(UB-ubm-talla-10-ing-biomedica-blusa",
+          "name": "(UBM) Talla 10 ING Biomedica blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UB-ubm-talla-10-ing-biomedica-pantalon",
+          "name": "(UBM) Talla 10 ING Biomedica pantalon",
+          "price": 68000
+        },
+        {
+          "id": "(UB-ubm-talla-12-ing-biomedica-blusa",
+          "name": "(UBM) Talla 12 ING Biomedica blusa",
+          "price": 80000
+        },
+        {
+          "id": "(UB-ubm-talla-12-ing-biomedica-pantalon",
+          "name": "(UBM) Talla 12 ING Biomedica pantalon",
+          "price": 68000
+        },
+        {
+          "id": "(UB-ubm-talla-14-ing-biomedica-blusa",
+          "name": "(UBM) Talla 14 ING Biomedica blusa",
+          "price": 83000
+        },
+        {
+          "id": "(UB-ubm-talla-14-ing-biomedica-pantalon",
+          "name": "(UBM) Talla 14 ING Biomedica pantalon",
+          "price": 74000
+        },
+        {
+          "id": "(UB-ubm-talla-16-ing-biomedica-blusa",
+          "name": "(UBM) Talla 16 ING Biomedica blusa",
+          "price": 83000
+        },
+        {
+          "id": "(UB-ubm-talla-16-ing-biomedica-pantalon",
+          "name": "(UBM) Talla 16 ING Biomedica pantalon",
+          "price": 74000
+        },
+        {
+          "id": "(UB-ubm-talla-18-ing-biomedica-blusa",
+          "name": "(UBM) Talla 18 ING Biomedica blusa",
+          "price": 83000
+        },
+        {
+          "id": "(UB-ubm-talla-18-ing-biomedica-blusa",
+          "name": "(UBM) Talla 18 ING Biomedica blusa",
+          "price": 83000
+        },
+        {
+          "id": "(UB-ubm-talla-18-ing-biomedica-pantalon",
+          "name": "(UBM) Talla 18 ING Biomedica pantalon",
+          "price": 74000
+        },
+        {
+          "id": "(UB-ubm-talla-18-ing-biomedica-pantalon",
+          "name": "(UBM) Talla 18 ING Biomedica pantalon",
+          "price": 74000
+        }
+      ]
+    },
+    {
+      "id": "zzz-por-clasificar",
+      "name": "ZZZ Por Clasificar",
+      "items": [
+        {
+          "id": "(Z_-z-f-ubm-ing-biomedica-talla-14",
+          "name": "(Z_F_UBM) ING BIOMEDICA TALLA 14",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-f-ubm-ing-biomedica-talla-14",
+          "name": "(Z_F_UBM) ING BIOMEDICA TALLA 14",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-f-ueah-enfermeria-azul-hombre-talla-l",
+          "name": "(Z_F_UEAH) ENFERMERIA AZUL HOMBRE TALLA L",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-f-ueah-enfermeria-azul-hombre-talla-l",
+          "name": "(Z_F_UEAH) ENFERMERIA AZUL HOMBRE TALLA L",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-f-uesc-enfermeria-cirugia-talla-xs",
+          "name": "(Z_F_UESC) ENFERMERIA CIRUGIA TALLA XS",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-f-uesc-enfermeria-cirugia-talla-xs",
+          "name": "(Z_F_UESC) ENFERMERIA CIRUGIA TALLA XS",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-f-ugpro-gastronomia-prfesional-talla-xs",
+          "name": "(Z_F_UGPRO) GASTRONOMIA PRFESIONAL TALLA XS",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-f-ugpro-gastronomia-prfesional-talla-xs",
+          "name": "(Z_F_UGPRO) GASTRONOMIA PRFESIONAL TALLA XS",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-f-ugpro-gastronomia-tecnologica-talla-xs",
+          "name": "(Z_F_UGPRO) GASTRONOMIA TECNOLOGICA TALLA XS",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-f-ugpro-gastronomia-tecnologica-talla-xs",
+          "name": "(Z_F_UGPRO) GASTRONOMIA TECNOLOGICA TALLA XS",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-uebm-enfermeria-blanco-mujer-talla-12",
+          "name": "(Z_UEBM) ENFERMERIA BLANCO MUJER TALLA 12",
+          "price": 130000
+        },
+        {
+          "id": "(Z_-z-uebm-enfermeria-blanco-mujer-talla-12",
+          "name": "(Z_UEBM) ENFERMERIA BLANCO MUJER TALLA 12",
+          "price": 130000
+        }
       ]
     }
   ]
