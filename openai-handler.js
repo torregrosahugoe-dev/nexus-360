@@ -3,23 +3,25 @@ import OpenAI from 'openai';
 import menu from './menu.json' assert { type: 'json' };
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const menuItems = Object.keys(menu.items).join(', ');
 
-// Esta función es el "cerebro". Toma la transcripción y el historial de la conversación.
 export async function processTranscript(transcript, conversationHistory = []) {
-  const menuItems = Object.keys(menu.items).join(', ');
-
-  // El historial ayuda a GPT a recordar de qué se está hablando.
   const messages = [
     {
       role: 'system',
-      content: `Eres un asistente de toma de pedidos para un restaurante llamado Nexus 360. El menú disponible es: ${menuItems}.
-      Tu objetivo es identificar los productos que el cliente quiere, agregarlos a un pedido y preguntar si desea algo más.
-      Si no entiendes algo, pide que lo repitan.
-      Cuando el cliente diga que no quiere nada más, responde con la palabra clave "CONFIRMAR_PEDIDO".
-      Si el cliente pregunta por algo que no está en el menú, indícalo amablemente.
-      Sé breve y directo.`
+      content: `Eres un asistente de voz para tomar pedidos en "Nexus 360". El menú es: ${menuItems}.
+      Tu tarea es conversar con el cliente para armar su pedido.
+      RESPONDE SIEMPRE CON UN OBJETO JSON con la siguiente estructura:
+      {
+        "responseText": "Tu respuesta conversacional para el cliente. Sé breve y amigable.",
+        "action": "CONTINUE", // o "CONFIRM_ORDER" si el cliente ya no quiere nada más.
+        "orderItems": ["item1", "item2"] // Solo los items que el cliente mencionó en ESTE turno.
+      }
+      Ejemplo: si el usuario dice 'quiero una pizza', tu respuesta JSON sería:
+      {"responseText": "Claro, una pizza. ¿Algo más?","action": "CONTINUE","orderItems": ["pizza"]}
+      `
     },
-    ...conversationHistory, // Historial de turnos anteriores
+    ...conversationHistory, // Carga el historial para tener contexto
     {
       role: 'user',
       content: transcript
@@ -28,18 +30,20 @@ export async function processTranscript(transcript, conversationHistory = []) {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o", // O el modelo que prefieras
+      model: "gpt-4o",
       messages: messages,
+      response_format: { type: "json_object" }, // ¡Forzamos la respuesta a ser JSON!
     });
 
-    const responseText = completion.choices[0].message.content;
-
-    // Puedes agregar lógica más avanzada para extraer los items del pedido aquí.
-    // Por ahora, devolvemos la respuesta directa de la IA.
-    return responseText;
+    const responseContent = completion.choices[0].message.content;
+    return JSON.parse(responseContent);
 
   } catch (error) {
-    console.error("Error al contactar OpenAI:", error);
-    return "Lo siento, tuve un problema para procesar tu pedido. Intenta de nuevo.";
+    console.error("Error al procesar con OpenAI:", error);
+    return {
+      responseText: "Lo siento, estoy teniendo problemas para procesar tu pedido. Intenta de nuevo.",
+      action: "CONTINUE",
+      orderItems: []
+    };
   }
 }
