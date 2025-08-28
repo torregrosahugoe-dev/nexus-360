@@ -1,0 +1,9 @@
+{
+  "items": {
+    "hamburguesa": { "price": 15000, "category": "platos" },
+    "pizza": { "price": 25000, "category": "platos" },
+    "papas": { "price": 5000, "category": "acompañantes" },
+    "gaseosa": { "price": 3000, "category": "bebidas" },
+    "agua": { "price": 2500, "category": "bebidas" }
+  }
+}
