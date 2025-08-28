@@ -1,18 +1,19 @@
 // ┌───────────────────────────────────────────────────────────────────┐
 // │  Nexus 360 - Servidor IVR Inteligente con ASR                     │
-// │  Versión 3.0 - Arquitectura de Ciclo Estable                      │
+// │  Versión 3.1 - Conexión WebSocket Robusta (Final)                 │
 // └───────────────────────────────────────────────────────────────────┘
 
 import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';
+import { URL } from 'url';
 import express from 'express';
 import twilio from 'twilio';
 import { WebSocketServer } from 'ws';
 import { SpeechClient } from '@google-cloud/speech';
 import { processTranscript } from './openai-handler.js';
 
-// SECCIÓN 1: LÓGICA DEL MOTOR ASR
+// SECCIÓN 1: LÓGICA DEL MOTOR ASR (SIN CAMBIOS)
 (function ensureGoogleCreds() {
   const b64 = process.env.GOOGLE_CREDENTIALS_B64;
   if (!b64) {
@@ -36,14 +37,12 @@ function createGoogleStream({ onData, onError, onEnd }) {
   return { write: (buf) => recognizeStream.write(buf), end: () => recognizeStream.end() };
 }
 
-// SECCIÓN 2: LÓGICA DEL IVR (ENDPOINTS HTTP)
+// SECCIÓN 2: LÓGICA DEL IVR (SIN CAMBIOS)
 const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(express.urlencoded({ extended: false }));
-
 const VoiceResponse = twilio.twiml.VoiceResponse;
 
-// 2.1) Endpoint de entrada: /voice
 app.post('/voice', (req, res) => {
   const twiml = new VoiceResponse();
   const gather = twiml.gather({ input: 'dtmf', numDigits: 1, timeout: 5, action: '/handle-menu' });
@@ -52,16 +51,14 @@ app.post('/voice', (req, res) => {
   res.type('text/xml').send(twiml.toString());
 });
 
-// 2.2) Endpoint de manejo del menú: /handle-menu
 app.post('/handle-menu', (req, res) => {
   const digit = req.body.Digits;
   const twiml = new VoiceResponse();
   switch (digit) {
     case '1':
       twiml.say({ voice: 'alice', language: 'es-MX' }, 'Excelente. Estoy lista para tomar tu orden. ¿Qué deseas?');
-      twiml.redirect('/listen'); // Redirige al endpoint de "escuchar"
+      twiml.redirect('/listen');
       break;
-    // ... otros casos
     default:
       twiml.say({ voice: 'alice', language: 'es-MX' }, 'Opción no válida.');
       twiml.redirect('/voice');
@@ -70,7 +67,6 @@ app.post('/handle-menu', (req, res) => {
   res.type('text/xml').send(twiml.toString());
 });
 
-// 2.3) Endpoint para "ESCUCHAR": /listen (antes /order-speech)
 app.post('/listen', (req, res) => {
   const twiml = new VoiceResponse();
   const connect = twiml.connect();
@@ -79,15 +75,12 @@ app.post('/listen', (req, res) => {
   res.type('text/xml').send(twiml.toString());
 });
 
-// 2.4) Endpoint para "HABLAR": /speak
 app.post('/speak', (req, res) => {
     const callSid = req.body.CallSid;
     const state = callsState.get(callSid);
     const twiml = new VoiceResponse();
-
     if (state && state.lastAiResponse) {
         twiml.say({ voice: 'alice', language: 'es-MX' }, state.lastAiResponse);
-        // Después de hablar, redirige inmediatamente al endpoint de "escuchar" de nuevo
         twiml.redirect('/listen');
     } else {
         twiml.say({ voice: 'alice', language: 'es-MX' }, "Lo siento, hubo un error.");
@@ -96,37 +89,45 @@ app.post('/speak', (req, res) => {
     res.type('text/xml').send(twiml.toString());
 });
 
-
-// SECCIÓN 3: INICIALIZACIÓN Y CICLO DE CONVERSACIÓN
+// SECCIÓN 3: INICIALIZACIÓN Y CICLO DE CONVERSACIÓN (CON MANEJO DE WEBSOCKET EXPLÍCITO)
 const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 const callsState = new Map();
 
 const server = app.listen(PORT, () => console.log(`[OK] Servidor Nexus 360 escuchando en ${PORT}`));
-const wss = new WebSocketServer({ server, path: '/twilio-stream' });
+const wss = new WebSocketServer({ noServer: true }); // No lo adjuntamos directamente
 
-wss.on('connection', (ws) => {
+// Manejamos la "actualización" de la conexión HTTP a WebSocket manualmente
+server.on('upgrade', (request, socket, head) => {
+  const pathname = new URL(request.url, `http://${request.headers.host}`).pathname;
+
+  if (pathname === '/twilio-stream') {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+      wss.emit('connection', ws, request);
+    });
+  } else {
+    socket.destroy();
+  }
+});
+
+wss.on('connection', (ws, request) => {
     console.log('[WS] Conexión de stream iniciada.');
     let googleStream;
     let callSid;
 
     const onData = async (data) => {
         if (!data.isFinal || !data.transcript) return;
-
         console.log(`[ASR Final]: ${data.transcript}`);
         const state = callsState.get(callSid);
         if (!state) return;
 
-        // 1. PENSAR
         const aiResponse = await processTranscript(data.transcript, state.conversationHistory);
         console.log('[AI Response]:', aiResponse);
 
-        // 2. ACTUALIZAR ESTADO
         state.conversationHistory.push({ role: 'user', content: data.transcript });
         state.conversationHistory.push({ role: 'assistant', content: aiResponse.responseText });
         state.order.push(...aiResponse.orderItems);
         state.lastAiResponse = aiResponse.responseText;
 
-        // 3. ACTUALIZAR LLAMADA PARA "HABLAR"
         if (aiResponse.action === 'CONFIRM_ORDER') {
             const twiml = new VoiceResponse();
             const finalOrder = state.order.length > 0 ? state.order.join(', ') : 'ningún producto';
@@ -135,7 +136,6 @@ wss.on('connection', (ws) => {
             callsState.delete(callSid);
             await twilioClient.calls(callSid).update({ twiml: twiml.toString() });
         } else {
-            // Redirigimos al endpoint de "hablar"
             const speakUrl = `https://${process.env.HEROKU_APP_NAME}.herokuapp.com/speak`;
             await twilioClient.calls(callSid).update({ url: speakUrl, method: 'POST' });
         }
