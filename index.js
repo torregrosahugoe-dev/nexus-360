@@ -1,6 +1,6 @@
 // ┌───────────────────────────────────────────────────────────────────┐
 // │  Nexus 360 - Servidor IVR Inteligente con ASR                     │
-// │  Versión 3.1 - Conexión WebSocket Robusta (Final)                 │
+// │  Versión 3.2 - Procesador de Audio Robusto (Final)                │
 // └───────────────────────────────────────────────────────────────────┘
 
 import 'dotenv/config';
@@ -13,13 +13,10 @@ import { WebSocketServer } from 'ws';
 import { SpeechClient } from '@google-cloud/speech';
 import { processTranscript } from './openai-handler.js';
 
-// SECCIÓN 1: LÓGICA DEL MOTOR ASR (SIN CAMBIOS)
+// SECCIÓN 1: LÓGICA DEL MOTOR ASR (CON AJUSTE DE ROBUSTEZ)
 (function ensureGoogleCreds() {
   const b64 = process.env.GOOGLE_CREDENTIALS_B64;
-  if (!b64) {
-    console.warn('[WARN] GOOGLE_CREDENTIALS_B64 no está configurado.');
-    return;
-  }
+  if (!b64) { console.warn('[WARN] GOOGLE_CREDENTIALS_B64 no está configurado.'); return; }
   const credsPath = path.join(process.cwd(), 'gcp-stt.json');
   try {
     fs.writeFileSync(credsPath, Buffer.from(b64, 'base64'));
@@ -30,12 +27,31 @@ import { processTranscript } from './openai-handler.js';
   }
 })();
 
+// FUNCIÓN CORREGIDA PARA MAYOR ROBUSTEZ
 function createGoogleStream({ onData, onError, onEnd }) {
   const client = new SpeechClient();
   const request = { config: { encoding: 'MULAW', sampleRateHertz: 8000, languageCode: 'es-CO', model: 'phone_call', useEnhanced: true }, interimResults: true };
-  const recognizeStream = client.streamingRecognize(request).on('error', (e) => onError?.(e)).on('data', (data) => { const result = data.results?.[0]; if (result?.alternatives?.[0]) { onData?.({ engine: 'google', transcript: result.alternatives[0].transcript, isFinal: result.isFinal }); } }).on('end', () => onEnd?.());
+  
+  const recognizeStream = client.streamingRecognize(request)
+    .on('error', (err) => onError?.(err))
+    .on('data', (data) => {
+        const result = data.results[0];
+        // Comprobación más segura
+        if (result && result.alternatives && result.alternatives[0]) {
+            onData?.({
+                engine: 'google',
+                transcript: result.alternatives[0].transcript,
+                isFinal: result.isFinal,
+            });
+        } else {
+            console.log('[ASR WARN] Google envió una respuesta sin transcripción válida.');
+        }
+    })
+    .on('end', () => onEnd?.());
+
   return { write: (buf) => recognizeStream.write(buf), end: () => recognizeStream.end() };
 }
+
 
 // SECCIÓN 2: LÓGICA DEL IVR (SIN CAMBIOS)
 const PORT = process.env.PORT || 8080;
@@ -89,17 +105,16 @@ app.post('/speak', (req, res) => {
     res.type('text/xml').send(twiml.toString());
 });
 
-// SECCIÓN 3: INICIALIZACIÓN Y CICLO DE CONVERSACIÓN (CON MANEJO DE WEBSOCKET EXPLÍCITO)
+
+// SECCIÓN 3: INICIALIZACIÓN Y CICLO DE CONVERSACIÓN (SIN CAMBIOS)
 const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 const callsState = new Map();
 
 const server = app.listen(PORT, () => console.log(`[OK] Servidor Nexus 360 escuchando en ${PORT}`));
-const wss = new WebSocketServer({ noServer: true }); // No lo adjuntamos directamente
+const wss = new WebSocketServer({ noServer: true });
 
-// Manejamos la "actualización" de la conexión HTTP a WebSocket manualmente
 server.on('upgrade', (request, socket, head) => {
   const pathname = new URL(request.url, `http://${request.headers.host}`).pathname;
-
   if (pathname === '/twilio-stream') {
     wss.handleUpgrade(request, socket, head, (ws) => {
       wss.emit('connection', ws, request);
