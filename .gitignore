@@ -1,0 +1,6 @@
+# Ignorar credenciales de Google Cloud
+nexus360-470306-d04ad10cc752.json
+
+# Ignorar archivos de Python
+__pycache__/
+*.pyc
